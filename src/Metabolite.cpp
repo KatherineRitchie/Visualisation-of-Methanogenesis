@@ -8,7 +8,14 @@ std::string Metabolite::get_shortname() const {
     return shortname_;
 }
 
+int Metabolite::get_num_particles() const {
+    return num_particles_;
+}
+
 void Metabolite::rm_particle() {
+    if (num_particles_ == 0) {
+        return;
+    }
     num_particles_ = num_particles_ - 1;
 }
 
