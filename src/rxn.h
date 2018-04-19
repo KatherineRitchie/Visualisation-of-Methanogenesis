@@ -1,7 +1,7 @@
 #ifndef RXN_H
 #define RXN_H
 
-#include "Metabolite.h"
+#include "metabolite.h"
 #include <vector>
 #include <string>
 
@@ -22,6 +22,9 @@ class Reaction {
     ReactionType type_;
     
 public:
+    Reaction();
+    Reaction(std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v);
+    
     bool react();
 };
 #endif

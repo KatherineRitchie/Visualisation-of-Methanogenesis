@@ -1,4 +1,4 @@
-#include "Metabolite.h"
+#include "metabolite.h"
 
 std::string Metabolite::get_fullname() const {
     return fullname_;

@@ -1,5 +1,7 @@
-#include "Metabolite.h"
-#include "Rxn.h"
+#include "metabolite.h"
+#include "rxn.h"
+#include "enzyme.h"
+
 #include <map>
 #include <string>
 
