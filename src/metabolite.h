@@ -21,6 +21,11 @@ public:
     //Modifiers
     void rm_particle();
     void add_particle();
+
+    bool operator==(const Metabolite &rhs) const;
+    bool operator!=(const Metabolite &rhs) const;
+
+
 };
 
 #endif

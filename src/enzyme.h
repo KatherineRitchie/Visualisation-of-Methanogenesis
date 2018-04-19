@@ -12,6 +12,9 @@ class Enzyme {
     std::vector<Reaction> reactions_;
 
 public:
+    Enzyme();
+    Enzyme(std::vector<Reaction> rxn_v);
+
     std::string get_name();
     std::vector<Reaction> get_reactions();
 };

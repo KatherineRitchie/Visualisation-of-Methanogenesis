@@ -4,6 +4,14 @@
 
 #include "enzyme.h"
 
+Enzyme::Enzyme() {
+    name_ = "";
+    reactions_ = std::vector<Reaction>();
+}
+Enzyme::Enzyme(std::vector<Reaction> rxn_v) {
+    reactions_ = rxn_v;
+}
+
 std::string Enzyme::get_name() {
     return name_;
 }

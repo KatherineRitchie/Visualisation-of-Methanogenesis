@@ -22,3 +22,19 @@ void Metabolite::rm_particle() {
 void Metabolite::add_particle() {
     num_particles_ = num_particles_ + 1;
 }
+
+bool Metabolite::operator==(const Metabolite &rhs) const {
+    if (shortname_ != rhs.get_shortname()) {
+        return false;
+    }
+    if (fullname_ != rhs.get_fullname()) {
+        return false;
+    }
+    if (num_particles_ != rhs.get_num_particles()) {
+        return false;
+    }
+    return true;
+}
+bool Metabolite::operator!=(const Metabolite &rhs) const {
+    return !(*this == rhs);
+}

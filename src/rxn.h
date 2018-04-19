@@ -13,18 +13,20 @@ class Reaction {
         M,        // irreversible unimolecular Michaelis-Menten
         F        // first order reaction
     };
-    
-    std::string enzyme_;
+
+
+    std::string name_;
     std::vector<Metabolite> reactants_;
     std::vector<Metabolite> products_;
-    float kcat_;
-    float km_;
     ReactionType type_;
     
 public:
     Reaction();
-    Reaction(std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v);
-    
+    Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v);
+
+    std::vector<Metabolite> get_reactants();
+    std::vector<Metabolite> get_products();
+
     bool react();
 };
 #endif

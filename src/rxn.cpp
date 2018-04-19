@@ -5,9 +5,18 @@ Reaction::Reaction() {
     products_ = std::vector<Metabolite>();
 }
 
-Reaction::Reaction(std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v) {
+Reaction::Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v) {
+    name_ = name_v;
     reactants_ = reactants_v;
     products_ = products_v;
+}
+
+std::vector<Metabolite> Reaction::get_reactants() {
+    return reactants_;
+}
+
+std::vector<Metabolite> Reaction::get_products() {
+    return products_;
 }
 
 bool Reaction::react() {
