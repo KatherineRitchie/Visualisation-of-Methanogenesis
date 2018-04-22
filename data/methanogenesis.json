@@ -1,0 +1,50 @@
+{
+    "name": "Kinetic Model of Methanogenesis",
+    "km_units": "mM",
+    "kcat_units": "s^-1",
+    "volume_units": "fL",
+    "volume": 500,
+    "Metabolites": [
+        {
+            "shortname": "atp",
+            "fullname": "ATP",
+            "init_conc": 0.0713
+        },
+        {
+            "shortname": "ac",
+            "fullname": "Ac",
+            "init_conc": 0.0713
+        },
+        {
+            "shortname": "acp",
+            "fullname": "AcP",
+            "init_conc": 0.098
+        },
+        {
+            "shortname": "adp",
+            "fullname": "ADP",
+            "init_conc": 0.098
+        }
+    ],
+    "Reactions": [
+        {
+            "name": "atp+ac->acp+adp",
+            "reactants": ["atp", "ac"],
+            "products": ["acp", "adp"],
+            "type": "B",
+            "kcat": "1055"
+        },
+        {
+            "name": "adp+acp->ac+atp",
+            "reactants": ["adp", "acp"],
+            "products": ["ac", "atp"],
+            "type": ""
+        }
+    ],
+    "Enzymes": [
+        {
+            "name": "Ack",
+            "reactions": ["atp+ac->acp+adp", "adp+acp->ac+atp"]
+        }
+    ]
+}
