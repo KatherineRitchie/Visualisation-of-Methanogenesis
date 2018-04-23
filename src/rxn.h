@@ -24,8 +24,8 @@ public:
     Reaction();
     Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v);
 
-    std::vector<Metabolite> get_reactants();
-    std::vector<Metabolite> get_products();
+    std::vector<Metabolite> GetReactants();
+    std::vector<Metabolite> GetProducts();
 
     bool react();
 };

@@ -1,0 +1,3 @@
+/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/cmake-build-debug/CMakeFiles/testing.dir

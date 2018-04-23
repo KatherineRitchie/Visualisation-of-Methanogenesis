@@ -1,0 +1,25 @@
+#use g++ compiler
+CC = g++ -g -Wall
+
+TARGET = src/main
+
+#main.o: main.cpp main.h
+#	cc -c main.cpp
+
+
+main.o: src/main.cpp src/main.h
+	$(CC) -o main.o src/main.cpp src/main.h
+
+all: main.o
+
+
+FILES = src/main.cpp src/Metabolite.cpp src/Rxn.cpp
+
+all: $(CC) $(CFLAGS) -o my_program $(FILES)
+
+
+$(TARGET): $(TARGET).cpp
+	$(CC) -o $(TARGET) $(TARGET).cpp
+
+clean: 
+	$(RM) $(TARGET)

@@ -1,7 +1,7 @@
 {
     "name": "Kinetic Model of Methanogenesis",
     "km_units": "mM",
-    "kcat_units": "s^-1",
+    "kcat_units": "per_sec",
     "volume_units": "fL",
     "volume": 500,
     "Metabolites": [

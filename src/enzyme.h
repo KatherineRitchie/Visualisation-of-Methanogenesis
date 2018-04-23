@@ -15,8 +15,8 @@ public:
     Enzyme();
     Enzyme(std::vector<Reaction> rxn_v);
 
-    std::string get_name();
-    std::vector<Reaction> get_reactions();
+    std::string GetName();
+    std::vector<Reaction> GetReactions();
 };
 
 #endif

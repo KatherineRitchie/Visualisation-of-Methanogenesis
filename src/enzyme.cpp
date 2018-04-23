@@ -12,10 +12,10 @@ Enzyme::Enzyme(std::vector<Reaction> rxn_v) {
     reactions_ = rxn_v;
 }
 
-std::string Enzyme::get_name() {
+std::string Enzyme::GetName() {
     return name_;
 }
 
-std::vector<Reaction> Enzyme::get_reactions() {
+std::vector<Reaction> Enzyme::GetReactions() {
     return reactions_;
 }

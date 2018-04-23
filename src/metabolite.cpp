@@ -1,14 +1,14 @@
 #include "metabolite.h"
 
-std::string Metabolite::get_fullname() const {
+std::string Metabolite::GetFullname() const {
     return fullname_;
 }
 
-std::string Metabolite::get_shortname() const {
+std::string Metabolite::GetShortname() const {
     return shortname_;
 }
 
-int Metabolite::get_num_particles() const {
+int Metabolite::GetNumParticles() const {
     return num_particles_;
 }
 
@@ -24,13 +24,13 @@ void Metabolite::add_particle() {
 }
 
 bool Metabolite::operator==(const Metabolite &rhs) const {
-    if (shortname_ != rhs.get_shortname()) {
+    if (shortname_ != rhs.GetShortname()) {
         return false;
     }
-    if (fullname_ != rhs.get_fullname()) {
+    if (fullname_ != rhs.GetFullname()) {
         return false;
     }
-    if (num_particles_ != rhs.get_num_particles()) {
+    if (num_particles_ != rhs.GetNumParticles()) {
         return false;
     }
     return true;

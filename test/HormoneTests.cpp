@@ -5,6 +5,8 @@
 #include "../src/rxn.h"
 #include "../src/enzyme.h"
 #include "../src/load.h"
+#include "../src/pathway.h"
+
 
 using namespace std;
 #include <vector>
@@ -13,24 +15,24 @@ using namespace std;
 TEST_CASE("Testing Metabolite Class functionality") {
     SECTION("default metabolite") {
         Metabolite default_metabolite;
-        REQUIRE(default_metabolite.get_fullname() == "");
-        REQUIRE(default_metabolite.get_shortname() == "");
-        REQUIRE(default_metabolite.get_num_particles() == 0);
+        REQUIRE(default_metabolite.GetFullname() == "");
+        REQUIRE(default_metabolite.GetShortname() == "");
+        REQUIRE(default_metabolite.GetNumParticles() == 0);
         default_metabolite.rm_particle();
-        REQUIRE(default_metabolite.get_num_particles() == 0);
+        REQUIRE(default_metabolite.GetNumParticles() == 0);
         default_metabolite.add_particle();
-        REQUIRE(default_metabolite.get_num_particles() == 1);
+        REQUIRE(default_metabolite.GetNumParticles() == 1);
     }
     SECTION("param_metabolite") {
         Metabolite param_metabolite("abc", "abra cadabra", 20);
-        REQUIRE(param_metabolite.get_num_particles() == 20);
-        REQUIRE(param_metabolite.get_fullname() == "abra cadabra");
-        REQUIRE(param_metabolite.get_shortname() == "abc");
+        REQUIRE(param_metabolite.GetNumParticles() == 20);
+        REQUIRE(param_metabolite.GetFullname() == "abra cadabra");
+        REQUIRE(param_metabolite.GetShortname() == "abc");
         
         param_metabolite.rm_particle();
-        REQUIRE(param_metabolite.get_num_particles() == 19);
+        REQUIRE(param_metabolite.GetNumParticles() == 19);
         param_metabolite.add_particle();
-        REQUIRE(param_metabolite.get_num_particles() == 20);
+        REQUIRE(param_metabolite.GetNumParticles() == 20);
     }
 }
 
@@ -45,9 +47,9 @@ TEST_CASE("Testing Reaction class") {
     
     Reaction default_rxn;
     Reaction param_rxn("abc", reactant_v, product_v);
-    REQUIRE(reactant_v == param_rxn.get_reactants());
-    REQUIRE(product_v == param_rxn.get_products());
-    REQUIRE(product_v != param_rxn.get_reactants());
+    REQUIRE(reactant_v == param_rxn.GetReactants());
+    REQUIRE(product_v == param_rxn.GetProducts());
+    REQUIRE(product_v != param_rxn.GetReactants());
 }
 
 TEST_CASE("Testing Enzyme class") {
@@ -68,7 +70,7 @@ TEST_CASE("Testing Enzyme class") {
 TEST_CASE("Testing load class") {
     std::string expected_string = "{\n"
             "    \"name\": \"Kinetic Model of Methanogenesis\",\n"
-            "    \"km_units\": \"mM\",\n"
+            "    \"km_units_\": \"mM\",\n"
             "    \"kcat_units\": \"s^-1\",\n"
             "    \"volume_units\": \"fL\",\n"
             "    \"volume\": 500,\n"
@@ -116,9 +118,28 @@ TEST_CASE("Testing load class") {
             "        }\n"
             "    ]\n"
             "}";
-    runJson();
     std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
     std::string actual_string = FileToString(filename);
     REQUIRE(actual_string == expected_string);
+}
+
+TEST_CASE("Testing pathway constructors") {
+    SECTION("default pathwau") {
+        Pathway default_pathway;
+        REQUIRE(default_pathway.GetName() == "");
+        REQUIRE(default_pathway.GetKCatUnits() == 0);
+        REQUIRE(default_pathway.GetMetabolites().size() == 0);
+    }
+    SECTION("parameterised pathway") {
+        std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
+        Pathway methanogenesis_pathway = Pathway(filename);
+        REQUIRE(methanogenesis_pathway.GetName() == "Kinetic Model of Methanogenesis");
+        REQUIRE(methanogenesis_pathway.GetKCatUnits() == 2);
+        //TODO find a way to test that enum is properly assigned
+        std::vector<Metabolite> expected_metabolites = {};
+        REQUIRE(methanogenesis_pathway.GetMetabolites() == expected_metabolites);
+        //TODO finish writing this parameterised pathwya test case
+        REQUIRE(true);
+    }
 }
 

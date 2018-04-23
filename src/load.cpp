@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstdio>
 
 using namespace rapidjson;
 
@@ -14,8 +15,13 @@ void runJson() {
     std::cout << "original json is: " << json << std::endl;
 
     Document document;
-
-    document.Parse(json);
+    if (document.Parse(json).HasParseError()) {
+        std::cout << "inside runJson - something is wrong with this json!!!" << std::endl;
+        return;
+    }
+    std::cout << "document does not have parse error \n";
+    printf("hello = %s\n", document["hello"].GetString());
+    return;
 }
 
 std::string FileToString(std::string filename) {
@@ -23,11 +29,7 @@ std::string FileToString(std::string filename) {
     std::ifstream myfile(filename);
     std::string file_string;
     if (myfile.is_open()) {
-        std::cout<< "file is open";
-        std::cout << (getline (myfile,line) ? "true" : "false");
         while ( getline (myfile,line) ) {
-            std::cout << "inside file";
-            std::cout << line << std::endl;
             file_string += line;
         }
         myfile.close();

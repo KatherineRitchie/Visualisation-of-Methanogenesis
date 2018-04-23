@@ -11,11 +11,11 @@ Reaction::Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std:
     products_ = products_v;
 }
 
-std::vector<Metabolite> Reaction::get_reactants() {
+std::vector<Metabolite> Reaction::GetReactants() {
     return reactants_;
 }
 
-std::vector<Metabolite> Reaction::get_products() {
+std::vector<Metabolite> Reaction::GetProducts() {
     return products_;
 }
 
