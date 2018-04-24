@@ -48,34 +48,34 @@ Pathway::Pathway(std::string json_filename) {
     return;
 }
 
-std::string Pathway::GetName() {
+std::string Pathway::GetName() const {
     return name_;
 }
 
-Pathway::unit Pathway::GetKmUnits() {
+Pathway::unit Pathway::GetKmUnits() const {
     return km_units_;
 }
 
-Pathway::unit Pathway::GetKCatUnits() {
+Pathway::unit Pathway::GetKCatUnits() const {
     return kcat_units;
 }
 
-Pathway::unit Pathway::GetVolumeUnits() {
+Pathway::unit Pathway::GetVolumeUnits() const {
     return volume_units;
 }
 
-int Pathway::GetVolume() {
+int Pathway::GetVolume() const {
     return volume_units;
 }
 
-std::vector<Metabolite> Pathway::GetMetabolites() {
+std::vector<Metabolite> Pathway::GetMetabolites() const {
     return Metabolites;
 }
 
-std::vector<Reaction> Pathway::GetReactions() {
+std::vector<Reaction> Pathway::GetReactions() const {
     return Reactions;
 }
 
-std::vector<Enzyme> Pathway::GetEnzymes() {
+std::vector<Enzyme> Pathway::GetEnzymes() const {
     return Enzymes;
 }

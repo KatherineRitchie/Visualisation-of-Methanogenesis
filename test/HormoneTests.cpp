@@ -7,7 +7,6 @@
 #include "../src/load.h"
 #include "../src/pathway.h"
 
-
 using namespace std;
 #include <vector>
 #include <string>
@@ -46,7 +45,7 @@ TEST_CASE("Testing Reaction class") {
     std::vector<Metabolite> product_v = {met_c};
     
     Reaction default_rxn;
-    Reaction param_rxn("abc", reactant_v, product_v);
+    Reaction param_rxn("abc", reactant_v, product_v, Reaction::B, 100);
     REQUIRE(reactant_v == param_rxn.GetReactants());
     REQUIRE(product_v == param_rxn.GetProducts());
     REQUIRE(product_v != param_rxn.GetReactants());
@@ -60,11 +59,11 @@ TEST_CASE("Testing Enzyme class") {
     Metabolite met_c("c", "ccc", 0);
     std::vector<Metabolite> c_v = {met_c};
 
-    Reaction forward_rxn("abc", ab_v, c_v);
-    Reaction back_rxn("cab", c_v, ab_v);
+    Reaction forward_rxn("abc", ab_v, c_v, Reaction::B, 100);
+    Reaction back_rxn("cab", c_v, ab_v, Reaction::BC, 100);
     std::vector<Reaction> rxn_v = {forward_rxn, back_rxn};
 
-    Enzyme param_enzyme(rxn_v);
+    Enzyme param_enzyme("param", rxn_v);
 }
 
 TEST_CASE("Testing load class") {
@@ -134,12 +133,26 @@ TEST_CASE("Testing pathway constructors") {
         std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
         Pathway methanogenesis_pathway = Pathway(filename);
         REQUIRE(methanogenesis_pathway.GetName() == "Kinetic Model of Methanogenesis");
-        REQUIRE(methanogenesis_pathway.GetKCatUnits() == 2);
+        REQUIRE(methanogenesis_pathway.GetKCatUnits() == Pathway::per_sec);
         //TODO find a way to test that enum is properly assigned
-        std::vector<Metabolite> expected_metabolites = {};
+
+        int num_particles_atp_ac = (int) 0.0713 * 6.023 * pow(10.0, 23) * pow(10.0, -15) * 500;
+        int num_particles_acp_adp = (int) 0.098 * 6.023 * pow(10.0, 23) * pow(10.0, -15) * 500;
+        Metabolite atp("atp", "ATP", num_particles_atp_ac);
+        Metabolite ac("ac", "Ac", num_particles_atp_ac);
+        Metabolite acp("acp", "AcP", num_particles_acp_adp);
+        Metabolite adp("adp", "ADP", num_particles_acp_adp);
+        std::vector<Metabolite> expected_metabolites = { atp, ac, acp, adp};
         REQUIRE(methanogenesis_pathway.GetMetabolites() == expected_metabolites);
-        //TODO finish writing this parameterised pathwya test case
-        REQUIRE(true);
+
+        Reaction forward_rxn("atp+ac->acp+adp", std::vector<Metabolite>({atp, ac}), std::vector<Metabolite>({acp, adp}), Reaction::B, 1055.0);
+        Reaction back_rxn("adp+acp->ac+atp", std::vector<Metabolite>({acp, adp}), std::vector<Metabolite>({ac, atp}), Reaction::B, 1260.0);
+        const std::vector<Reaction> expected_rxns = {forward_rxn, back_rxn};
+        REQUIRE(methanogenesis_pathway.GetReactions() == expected_rxns);
+
+        Enzyme ack("Ack", std::vector<Reaction>({forward_rxn, back_rxn}));
+        std::vector<Enzyme> expected_enzymes = {ack};
+        REQUIRE(methanogenesis_pathway.GetEnzymes() == expected_enzymes);
     }
 }
 

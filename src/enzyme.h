@@ -13,10 +13,13 @@ class Enzyme {
 
 public:
     Enzyme();
-    Enzyme(std::vector<Reaction> rxn_v);
+    explicit Enzyme(std::string name_v, std::vector<Reaction> rxn_v);
 
-    std::string GetName();
-    std::vector<Reaction> GetReactions();
+    std::string GetName() const;
+    std::vector<Reaction> GetReactions() const;
+
+    bool operator==(const Enzyme &rhs) const;
+    bool operator!=(const Enzyme &rhs) const;
 };
 
 #endif

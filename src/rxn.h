@@ -6,7 +6,8 @@
 #include <string>
 
 class Reaction {
-    
+
+public:
     enum ReactionType {
         B,       // irreversible bimolecular Michaelis-Menten
         BC,        // irreversible bimolecular Michaelis-Menten for the two underlined reactants with a constant flux term for the others, which is set to the  ux calculated for bimolecular reaction
@@ -14,19 +15,29 @@ class Reaction {
         F        // first order reaction
     };
 
+    Reaction();
+    explicit Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v, ReactionType reaction_type_v, double kcat_v);
 
+    std::string GetName() const;
+    std::vector<Metabolite> GetReactants() const;
+    std::vector<Metabolite> GetProducts() const;
+    ReactionType GetType() const;
+    double GetKCat() const;
+
+    bool react();
+
+    bool operator==(const Reaction &rhs) const;
+    bool operator!=(const Reaction &rhs) const;
+
+private:
     std::string name_;
     std::vector<Metabolite> reactants_;
     std::vector<Metabolite> products_;
     ReactionType type_;
-    
-public:
-    Reaction();
-    Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v);
-
-    std::vector<Metabolite> GetReactants();
-    std::vector<Metabolite> GetProducts();
-
-    bool react();
+    double kcat;
 };
+
+//bool operator==(const Reaction &lhs, const Reaction &rhs) const;
+//bool operator!=(const Reaction &lhs, const Reaction &rhs) const;
+
 #endif

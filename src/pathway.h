@@ -17,6 +17,8 @@
 //TODO find a better way to implement json functionality than straight through the filename constructor
 
 class Pathway {
+
+public:
     enum unit {
         null,
         mM,
@@ -24,6 +26,19 @@ class Pathway {
         fL
     };
 
+    Pathway();
+    explicit Pathway(std::string json_filename);
+
+    std::string GetName() const;
+    unit GetKmUnits() const;
+    unit GetKCatUnits() const;
+    unit GetVolumeUnits() const;
+    int GetVolume() const;
+    std::vector<Metabolite> GetMetabolites() const;
+    std::vector<Reaction> GetReactions() const;
+    std::vector<Enzyme> GetEnzymes() const;
+
+private:
     std::string name_;
     unit km_units_;
     //TODO rename these variables to have an underscore after field name
@@ -33,19 +48,6 @@ class Pathway {
     std::vector<Metabolite> Metabolites;
     std::vector<Reaction> Reactions;
     std::vector<Enzyme> Enzymes;
-
-public:
-    Pathway();
-    Pathway(std::string json_filename);
-
-    std::string GetName();
-    unit GetKmUnits();
-    unit GetKCatUnits();
-    unit GetVolumeUnits();
-    int GetVolume();
-    std::vector<Metabolite> GetMetabolites();
-    std::vector<Reaction> GetReactions();
-    std::vector<Enzyme> GetEnzymes();
 };
 
 #endif //PATHWAY_H
