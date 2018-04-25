@@ -1,5 +1,22 @@
 #include "rxn.h"
 
+ReactionType StringToReactionType(std::string reaction_type_string) {
+    if (reaction_type_string == "B") {
+        return B;
+    }
+    if (reaction_type_string == "BC") {
+        return BC;
+    }
+    if (reaction_type_string == "M") {
+        return M;
+    }
+    if (reaction_type_string == "F") {
+        return F;
+    }
+    return null_rxn_type;
+}
+
+
 Reaction::Reaction() {
     reactants_ = std::vector<Metabolite>();
     products_ = std::vector<Metabolite>();
@@ -25,7 +42,7 @@ std::vector<Metabolite> Reaction::GetProducts() const {
     return products_;
 }
 
-Reaction::ReactionType Reaction::GetType() const {
+ReactionType Reaction::GetType() const {
     return type_;
 }
 

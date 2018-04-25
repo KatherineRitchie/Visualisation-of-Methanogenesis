@@ -5,15 +5,18 @@
 #include <vector>
 #include <string>
 
-class Reaction {
+enum ReactionType {
+    null_rxn_type = 0,
+    B = 1,          // irreversible bimolecular Michaelis-Menten
+    BC = 2,         // irreversible bimolecular Michaelis-Menten for the two underlined reactants with a constant flux term for the others, which is set to the  ux calculated for bimolecular reaction
+    M = 3,          // irreversible unimolecular Michaelis-Menten
+    F = 4           // first order reaction
+};
 
+ReactionType StringToReactionType(std::string reaction_type_string);
+
+class Reaction {
 public:
-    enum ReactionType {
-        B,       // irreversible bimolecular Michaelis-Menten
-        BC,        // irreversible bimolecular Michaelis-Menten for the two underlined reactants with a constant flux term for the others, which is set to the  ux calculated for bimolecular reaction
-        M,        // irreversible unimolecular Michaelis-Menten
-        F        // first order reaction
-    };
 
     Reaction();
     explicit Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v, ReactionType reaction_type_v, double kcat_v);
@@ -45,4 +48,4 @@ private:
     double kcat;
 };
 
-#endif
+#endif //RXN_H

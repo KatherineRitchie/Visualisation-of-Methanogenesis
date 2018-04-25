@@ -16,16 +16,16 @@
 #include "../include/rapidjson/prettywriter.h" // for stringify JSON
 //TODO find a better way to implement json functionality than straight through the filename constructor
 
+enum unit {
+    null_unit = 0,
+    mM = 1,
+    per_sec = 2,
+    fL = 3
+};
+
 class Pathway {
 
 public:
-    enum unit {
-        null,
-        mM,
-        per_sec,
-        fL
-    };
-
     Pathway();
     explicit Pathway(std::string json_filename);
 
@@ -53,5 +53,8 @@ private:
     std::vector<Reaction> Reactions;
     std::vector<Enzyme> Enzymes;
 };
+
+unit StringToUnit(std::string unit_string);
+std::string UnitToString(unit unit_v);
 
 #endif //PATHWAY_H

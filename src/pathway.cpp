@@ -6,9 +6,9 @@
 
 Pathway::Pathway() {
     name_ = "";
-    kcat_units = null;
-    km_units_ = null;
-    volume_units = null;
+    kcat_units = null_unit;
+    km_units_ = null_unit;
+    volume_units = null_unit;
     Metabolites = {};
     Reactions = {};
     Enzymes = {};
@@ -25,71 +25,71 @@ Pathway::Pathway(std::string json_filename) {
     }
     std::cout << "document does not have parse error \n";
     std::cout << "name is " << document["name"].GetString() << std::endl;
+
     name_ = document["name"].GetString();
-    if (std::strncmp(document["km_units"].GetString(), "mM", 2)) {
-        km_units_ = mM;
-        std::cout << "km_units are mM";
-    }
-    std::cout << "km_units are not mM";
-    //TOdo make it such that units are assigned conditionally
+    //TODO make it such that units are assigned conditionally
+    km_units_ = mM;
     kcat_units = per_sec;
-    const auto &metabolite_v = document["Metabolites"];
-    for (int i = 0; i < metabolite_v.Size(); i++) { // Uses SizeType instead of
-        std::string shortname_v = document["Metabolites"][i]["shortname"].GetString();
-        std::string fullname_v = document["Metabolites"][i]["fullname"].GetString();
+    volume_units = fL;
+
+    //The following stanza parses the DOM tree and assigns the Metabolites to the Pathway
+    for (auto& metabolite : document["Metabolites"].GetArray()) {
+        std::string shortname_v = metabolite["shortname"].GetString();
+        std::string fullname_v = metabolite["fullname"].GetString();
         //TODO calculate actual number of particles that should be added
-        int num_particles_v = document["Metabolites"][i]["init_conc"].GetDouble() * 1000;
-        Metabolites.push_back(Metabolite(shortname_v, fullname_v, num_particles_v));
-        std::cout << document["Metabolites"][i]["shortname"].GetString() << std::endl;
+        int num_particles_v = metabolite["init_conc"].GetDouble() * 1000;
+        Metabolite new_metabolite(shortname_v, fullname_v, num_particles_v);
+        Metabolites.push_back(new_metabolite);
+        std::cout << metabolite["shortname"].GetString() << std::endl;
+        metabolite.GetObject();
+        int x = 5;
     }
-    const auto &reaction_v = document["Reactions"];
-    for (int rxn_i = 0; rxn_i < reaction_v.Size(); rxn_i++) {
-        std::string name_v = document["Reactions"][rxn_i]["name"].GetString();
 
-        const auto &reactant_string_v = document["Reactions"][rxn_i]["reactants"];
-        std::vector<Metabolite> product_metabolite_v;
-        for (int reactant_i = 0; reactant_i < reactant_string_v.Size(); reactant_i++) {
-            product_metabolite_v.push_back(StringToMetabolite(document["Reactions"][rxn_i]["reactants"][reactant_i].GetString()));
+    for (auto& reaction : document["Reactions"].GetArray()) {
+        std::string name_v = reaction["name"].GetString();
+
+        std::vector<Metabolite> reactant_metabolite_vect;
+        for (auto& reactant : reaction["reactants"].GetArray()) {
+            reactant_metabolite_vect.push_back(StringToMetabolite(reactant.GetString()));
         }
 
-        const auto &product_string_v = document["Reactions"][rxn_i]["products"];
-        std::vector<Metabolite> reactant_metabolite_v;
-        for (int prod_i = 0; prod_i < product_string_v.Size(); prod_i++) {
-            product_metabolite_v.push_back(StringToMetabolite(document["Reactions"][rxn_i]["products"][prod_i].GetString()));
+        std::vector<Metabolite> product_metabolite_vect;
+        for (auto& product : reaction["products"].GetArray()) {
+            product_metabolite_vect.push_back(StringToMetabolite(product.GetString()));
         }
+
+        ReactionType rxn_type_v = StringToReactionType(reaction["type"].GetString());
+        double kcat_v = reaction["kcat"].GetDouble();
+
+        Reaction new_reaction(name_v, reactant_metabolite_vect, product_metabolite_vect, rxn_type_v, kcat_v);
+        Reactions.push_back(new_reaction);
     }
 
-    if (std::strncmp(document["kcat_units"].GetString(), "per_sec", 7)) {
-        std::cout << "kcat_units are per_sec";
-    } else {
-        std::cout << "kcat units are not per_sec";
+    for (auto& enzyme : document["Enzymes"].GetArray()) {
+        std::string name_v = enzyme["name"].GetString();
+        std::vector<Reaction> reaction_vect;
+        for (auto& reaction : enzyme["reactions"].GetArray()) {
+            reaction_vect.push_back(StringToReaction(reaction.GetString()));
+        }
+
+        Enzyme new_enzyme(name_v, reaction_vect);
+        Enzymes.push_back(new_enzyme);
     }
-    //TODO find better alternative to hard coding these numbers in
-    if (std::strncmp(document["volume_units"].GetString(), "fL", 2)) {
-        volume_units = fL;
-        std::cout << "vol_units are fL";
-    }
-//    Metabolites = document["Metabolites"]
-//    for (auto& metabolite : document.GetObject())
-//        printf("Type of member %s is %s\n",
-//               metabolite.name.GetString(), kTypeNames[m.value.GetType()]);
-//    std::cout << document["name"].GetString() << std::endl;
-    return;
 }
 
 std::string Pathway::GetName() const {
     return name_;
 }
 
-Pathway::unit Pathway::GetKmUnits() const {
+unit Pathway::GetKmUnits() const {
     return km_units_;
 }
 
-Pathway::unit Pathway::GetKCatUnits() const {
+unit Pathway::GetKCatUnits() const {
     return kcat_units;
 }
 
-Pathway::unit Pathway::GetVolumeUnits() const {
+unit Pathway::GetVolumeUnits() const {
     return volume_units;
 }
 
@@ -137,3 +137,30 @@ Enzyme Pathway::StringToEnzyme(std::string enzyme_string) {
     }
     return Enzyme();
 }
+
+unit StringToUnit(std::string unit_string) {
+    if (unit_string == "mM") {
+        return mM;
+    }
+    if (unit_string == "per_sec") {
+        return per_sec;
+    }
+    if (unit_string == "fL") {
+        return fL;
+    }
+    return null_unit;
+}
+
+std::string UnitToString(unit unit_v) {
+    if (unit_v == mM) {
+        return "mM";
+    }
+    if (unit_v == per_sec) {
+        return "per_sec";
+    }
+    if (unit_v == fL) {
+        return "fL";
+    }
+    return NULL;
+}
+
