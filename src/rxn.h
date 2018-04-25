@@ -18,6 +18,7 @@ public:
     Reaction();
     explicit Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v, ReactionType reaction_type_v, double kcat_v);
 
+    //Accessor
     std::string GetName() const;
     std::vector<Metabolite> GetReactants() const;
     std::vector<Metabolite> GetProducts() const;
@@ -25,6 +26,13 @@ public:
     double GetKCat() const;
 
     bool react();
+
+    //Modifiers
+    void SetName(std::string name_v);
+    void SetReactants(std::vector<Metabolite> reactants_v);
+    void SetProducts(std::vector<Metabolite> product_v);
+    void SetReactionType(ReactionType reaction_type_v);
+    void SetKCat(double kcat_v);
 
     bool operator==(const Reaction &rhs) const;
     bool operator!=(const Reaction &rhs) const;
@@ -36,8 +44,5 @@ private:
     ReactionType type_;
     double kcat;
 };
-
-//bool operator==(const Reaction &lhs, const Reaction &rhs) const;
-//bool operator!=(const Reaction &lhs, const Reaction &rhs) const;
 
 #endif

@@ -33,6 +33,26 @@ double Reaction::GetKCat() const {
     return kcat;
 }
 
+void Reaction::SetName(std::string name_v) {
+    name_ = name_v;
+}
+
+void Reaction::SetReactants(std::vector<Metabolite> reactants_v) {
+    reactants_ = reactants_v;
+}
+
+void Reaction::SetProducts(std::vector<Metabolite> product_v) {
+    products_ = product_v;
+}
+
+void Reaction::SetReactionType(ReactionType reaction_type_v) {
+    type_ = reaction_type_v;
+}
+
+void Reaction::SetKCat(double kcat_v) {
+    kcat = kcat_v;
+}
+
 //TODO figure out why you cant implement equality operator overloads
 bool Reaction::operator==(const Reaction &rhs) const {
     if (name_ != rhs.GetName()) {
@@ -56,30 +76,6 @@ bool Reaction::operator==(const Reaction &rhs) const {
 bool Reaction::operator!=(const Reaction &rhs) const {
     return !(*this == rhs);
 }
-
-////TODO figure out why you cant implement equality operator overloads
-//bool operator==(const Reaction &lhs, const Reaction &rhs) const {
-//    if (lhs.GetName() != rhs.GetName()) {
-//        return false;
-//    }
-//    if (lhs.GetReactants() != rhs.GetReactants()) {
-//        return false;
-//    }
-//    if (lhs.GetProducts() != rhs.GetProducts()) {
-//        return false;
-//    }
-//    if (lhs.GetType() != rhs.GetType()) {
-//        return false;
-//    }
-//    if (lhs.GetKCat() != rhs.GetKCat()) {
-//        return false;
-//    }
-//    return true;
-//}
-//
-//bool operator!=(const Reaction &lhs, const Reaction &rhs) const {
-//    return !(lhs == rhs);
-//}
 
 bool Reaction::react() {
     for (Metabolite metabolite : reactants_) {

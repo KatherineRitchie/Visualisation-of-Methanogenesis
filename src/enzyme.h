@@ -15,8 +15,13 @@ public:
     Enzyme();
     explicit Enzyme(std::string name_v, std::vector<Reaction> rxn_v);
 
+    //Accessors
     std::string GetName() const;
     std::vector<Reaction> GetReactions() const;
+
+    //Modifiers
+    void SetName(std::string name_v);
+    void SetReactions(std::vector<Reaction> reactions_v);
 
     bool operator==(const Enzyme &rhs) const;
     bool operator!=(const Enzyme &rhs) const;

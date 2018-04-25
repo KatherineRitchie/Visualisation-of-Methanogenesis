@@ -12,6 +12,23 @@ int Metabolite::GetNumParticles() const {
     return num_particles_;
 }
 
+void Metabolite::SetFullName(std::string fullname_v) {
+    fullname_ = fullname_v;
+}
+
+void Metabolite::SetShortName(std::string shortname_v) {
+    shortname_ = shortname_v;
+}
+
+void Metabolite::SetNumParticles(double init_conc_v, std::string units) {
+    num_particles_ = init_conc_v * 1000;
+    //TODO fix setNumParticles method to use real chemistry
+}
+
+void Metabolite::SetNumParticles(int num_particles_v) {
+    num_particles_ = num_particles_v;
+}
+
 void Metabolite::rm_particle() {
     if (num_particles_ == 0) {
         return;

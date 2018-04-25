@@ -19,6 +19,11 @@ public:
     int GetNumParticles() const;
     
     //Modifiers
+    void SetFullName(std::string fullname_v);
+    void SetShortName(std::string shortname_v);
+    void SetNumParticles(double init_conc_v, std::string units);
+    void SetNumParticles(int num_particles_v);
+
     void rm_particle();
     void add_particle();
 

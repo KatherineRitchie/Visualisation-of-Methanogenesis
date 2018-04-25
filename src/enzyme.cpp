@@ -21,6 +21,14 @@ std::vector<Reaction> Enzyme::GetReactions() const {
     return reactions_;
 }
 
+void Enzyme::SetName(std::string name_v) {
+    name_ = name_v;
+}
+
+void Enzyme::SetReactions(std::vector<Reaction> reactions_v) {
+    reactions_ = reactions_v;
+}
+
 bool Enzyme::operator==(const Enzyme &rhs) const {
     if (name_ != rhs.GetName()) {
         return false;

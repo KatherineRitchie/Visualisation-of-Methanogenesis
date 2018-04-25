@@ -38,6 +38,10 @@ public:
     std::vector<Reaction> GetReactions() const;
     std::vector<Enzyme> GetEnzymes() const;
 
+    Metabolite StringToMetabolite(std::string metabolite_string);
+    Reaction StringToReaction(std::string reaction_string);
+    Enzyme StringToEnzyme(std::string enzyme_string);
+
 private:
     std::string name_;
     unit km_units_;
