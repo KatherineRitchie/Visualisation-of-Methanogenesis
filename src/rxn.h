@@ -16,8 +16,13 @@ enum ReactionType {
 ReactionType StringToReactionType(std::string reaction_type_string);
 
 class Reaction {
-public:
+    std::string name_;
+    std::vector<Metabolite> reactants_;
+    std::vector<Metabolite> products_;
+    ReactionType type_;
+    double kcat;
 
+public:
     Reaction();
     explicit Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v, ReactionType reaction_type_v, double kcat_v);
 
@@ -39,13 +44,6 @@ public:
 
     bool operator==(const Reaction &rhs) const;
     bool operator!=(const Reaction &rhs) const;
-
-private:
-    std::string name_;
-    std::vector<Metabolite> reactants_;
-    std::vector<Metabolite> products_;
-    ReactionType type_;
-    double kcat;
 };
 
 #endif //RXN_H

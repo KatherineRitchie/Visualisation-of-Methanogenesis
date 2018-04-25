@@ -14,7 +14,6 @@
 #include <cstring>
 #include "../include/rapidjson/document.h"
 #include "../include/rapidjson/prettywriter.h" // for stringify JSON
-//TODO find a better way to implement json functionality than straight through the filename constructor
 
 enum unit {
     null_unit = 0,
@@ -23,12 +22,25 @@ enum unit {
     fL = 3
 };
 
+unit StringToUnit(std::string unit_string);
+std::string UnitToString(unit unit_v);
+
 class Pathway {
+    std::string name_;
+    unit km_units_;
+    unit kcat_units_;
+    unit volume_units_;
+    int volume_;
+    std::vector<Metabolite> metabolites_;
+    std::vector<Reaction> reactions_;
+    std::vector<Enzyme> enzymes_;
 
 public:
     Pathway();
+    //TODO break up this horrible constructor its truly atrocious
     explicit Pathway(std::string json_filename);
 
+    //Accessors
     std::string GetName() const;
     unit GetKmUnits() const;
     unit GetKCatUnits() const;
@@ -38,23 +50,12 @@ public:
     std::vector<Reaction> GetReactions() const;
     std::vector<Enzyme> GetEnzymes() const;
 
-    Metabolite StringToMetabolite(std::string metabolite_string);
-    Reaction StringToReaction(std::string reaction_string);
-    Enzyme StringToEnzyme(std::string enzyme_string);
-
-private:
-    std::string name_;
-    unit km_units_;
-    //TODO rename these variables to have an underscore after field name
-    unit kcat_units;
-    unit volume_units;
-    int volume;
-    std::vector<Metabolite> Metabolites;
-    std::vector<Reaction> Reactions;
-    std::vector<Enzyme> Enzymes;
+    //The following functions accept a standard string and return a copy of a metabolite, reaction or enzyme
+    // that is present in the pathway. If a matching one is not found, then a default reaction, metablite or
+    // enzyme is returned.
+    Metabolite StringToMetabolite(std::string metabolite_string);   //Accepts metabolite shortName eg atp
+    Reaction StringToReaction(std::string reaction_string);         //Accepts Reaction name eg atp+ac->acp+adp
+    Enzyme StringToEnzyme(std::string enzyme_string);               //Accepts enzyme name eg Ack
 };
-
-unit StringToUnit(std::string unit_string);
-std::string UnitToString(unit unit_v);
 
 #endif //PATHWAY_H

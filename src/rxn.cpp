@@ -95,11 +95,18 @@ bool Reaction::operator!=(const Reaction &rhs) const {
 }
 
 bool Reaction::react() {
+
+    //TODO figure out how you want a reaction to occur
     for (Metabolite metabolite : reactants_) {
         metabolite.rm_particle();
     }
     for (Metabolite metabolite : products_) {
         metabolite.add_particle();
+    }
+    for (Metabolite metabolite : reactants_) {
+        if (metabolite.GetNumParticles() <= 0) {
+            return false;
+        }
     }
     return true;
 }

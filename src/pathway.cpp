@@ -4,139 +4,6 @@
 
 #include "pathway.h"
 
-Pathway::Pathway() {
-    name_ = "";
-    kcat_units = null_unit;
-    km_units_ = null_unit;
-    volume_units = null_unit;
-    Metabolites = {};
-    Reactions = {};
-    Enzymes = {};
-}
-
-Pathway::Pathway(std::string json_filename) {
-    std::string json_file = FileToString(json_filename);
-    rapidjson::Document document;
-    const char *json_char_arr = json_file.c_str();
-    std::cout << json_char_arr << std::endl;
-    if (document.Parse(json_char_arr).HasParseError()) {
-        std::cout << "something is wrong with the json you passed to the pathway constructor!!!" << std::endl;
-        return;
-    }
-    std::cout << "document does not have parse error \n";
-    std::cout << "name is " << document["name"].GetString() << std::endl;
-
-    name_ = document["name"].GetString();
-    //TODO make it such that units are assigned conditionally
-    km_units_ = mM;
-    kcat_units = per_sec;
-    volume_units = fL;
-
-    //The following stanza parses the DOM tree and assigns the Metabolites to the Pathway
-    for (auto& metabolite : document["Metabolites"].GetArray()) {
-        std::string shortname_v = metabolite["shortname"].GetString();
-        std::string fullname_v = metabolite["fullname"].GetString();
-        //TODO calculate actual number of particles that should be added
-        int num_particles_v = metabolite["init_conc"].GetDouble() * 1000;
-        Metabolite new_metabolite(shortname_v, fullname_v, num_particles_v);
-        Metabolites.push_back(new_metabolite);
-        std::cout << metabolite["shortname"].GetString() << std::endl;
-        metabolite.GetObject();
-        int x = 5;
-    }
-
-    for (auto& reaction : document["Reactions"].GetArray()) {
-        std::string name_v = reaction["name"].GetString();
-
-        std::vector<Metabolite> reactant_metabolite_vect;
-        for (auto& reactant : reaction["reactants"].GetArray()) {
-            reactant_metabolite_vect.push_back(StringToMetabolite(reactant.GetString()));
-        }
-
-        std::vector<Metabolite> product_metabolite_vect;
-        for (auto& product : reaction["products"].GetArray()) {
-            product_metabolite_vect.push_back(StringToMetabolite(product.GetString()));
-        }
-
-        ReactionType rxn_type_v = StringToReactionType(reaction["type"].GetString());
-        double kcat_v = reaction["kcat"].GetDouble();
-
-        Reaction new_reaction(name_v, reactant_metabolite_vect, product_metabolite_vect, rxn_type_v, kcat_v);
-        Reactions.push_back(new_reaction);
-    }
-
-    for (auto& enzyme : document["Enzymes"].GetArray()) {
-        std::string name_v = enzyme["name"].GetString();
-        std::vector<Reaction> reaction_vect;
-        for (auto& reaction : enzyme["reactions"].GetArray()) {
-            reaction_vect.push_back(StringToReaction(reaction.GetString()));
-        }
-
-        Enzyme new_enzyme(name_v, reaction_vect);
-        Enzymes.push_back(new_enzyme);
-    }
-}
-
-std::string Pathway::GetName() const {
-    return name_;
-}
-
-unit Pathway::GetKmUnits() const {
-    return km_units_;
-}
-
-unit Pathway::GetKCatUnits() const {
-    return kcat_units;
-}
-
-unit Pathway::GetVolumeUnits() const {
-    return volume_units;
-}
-
-int Pathway::GetVolume() const {
-    return volume_units;
-}
-
-std::vector<Metabolite> Pathway::GetMetabolites() const {
-    return Metabolites;
-}
-
-std::vector<Reaction> Pathway::GetReactions() const {
-    return Reactions;
-}
-
-std::vector<Enzyme> Pathway::GetEnzymes() const {
-    return Enzymes;
-}
-
-//TODO test these 'string to x' methods
-
-Metabolite Pathway::StringToMetabolite(std::string metabolite_string) {
-    for (Metabolite metabolite : Metabolites) {
-        if (metabolite.GetShortname() == metabolite_string) {
-            return metabolite;
-        }
-    }
-    return Metabolite();
-}
-
-Reaction Pathway::StringToReaction(std::string reaction_string) {
-    for (Reaction reaction : Reactions) {
-        if (reaction.GetName() == reaction_string) {
-            return reaction;
-        }
-    }
-    return Reaction();
-}
-
-Enzyme Pathway::StringToEnzyme(std::string enzyme_string) {
-    for (Enzyme enzyme : Enzymes) {
-        if (enzyme.GetName() == enzyme_string) {
-            return enzyme;
-        }
-    }
-    return Enzyme();
-}
 
 unit StringToUnit(std::string unit_string) {
     if (unit_string == "mM") {
@@ -162,5 +29,133 @@ std::string UnitToString(unit unit_v) {
         return "fL";
     }
     return NULL;
+}
+
+Pathway::Pathway() {
+    name_ = "";
+    kcat_units_ = null_unit;
+    km_units_ = null_unit;
+    volume_units_ = null_unit;
+    metabolites_ = {};
+    reactions_ = {};
+    enzymes_ = {};
+}
+
+Pathway::Pathway(std::string json_filename) {
+    std::string json_file = FileToString(json_filename);
+    rapidjson::Document document;
+    const char *json_char_arr = json_file.c_str();
+    std::cout << json_char_arr << std::endl;
+    if (document.Parse(json_char_arr).HasParseError()) {
+        std::cout << "something is wrong with the json you passed to the pathway constructor!!!" << std::endl;
+        return;
+    }
+    name_ = document["name"].GetString();
+    //TODO make it such that units are assigned conditionally
+    km_units_ = mM;
+    kcat_units_ = per_sec;
+    volume_units_ = fL;
+
+    //The following stanza parses the DOM tree and assigns the Metabolites to the Pathway
+    for (auto& metabolite : document["Metabolites"].GetArray()) {
+        std::string shortname_v = metabolite["shortname"].GetString();
+        std::string fullname_v = metabolite["fullname"].GetString();
+        //TODO calculate actual number of particles that should be added
+        int num_particles_v = metabolite["init_conc"].GetDouble() * 1000;
+        Metabolite new_metabolite(shortname_v, fullname_v, num_particles_v);
+        metabolites_.push_back(new_metabolite);
+        metabolite.GetObject();
+        int x = 5;
+    }
+
+    for (auto& reaction : document["Reactions"].GetArray()) {
+        std::string name_v = reaction["name"].GetString();
+
+        std::vector<Metabolite> reactant_metabolite_vect;
+        for (auto& reactant : reaction["reactants"].GetArray()) {
+            reactant_metabolite_vect.push_back(StringToMetabolite(reactant.GetString()));
+        }
+
+        std::vector<Metabolite> product_metabolite_vect;
+        for (auto& product : reaction["products"].GetArray()) {
+            product_metabolite_vect.push_back(StringToMetabolite(product.GetString()));
+        }
+
+        ReactionType rxn_type_v = StringToReactionType(reaction["type"].GetString());
+        double kcat_v = reaction["kcat"].GetDouble();
+
+        Reaction new_reaction(name_v, reactant_metabolite_vect, product_metabolite_vect, rxn_type_v, kcat_v);
+        reactions_.push_back(new_reaction);
+    }
+
+    for (auto& enzyme : document["Enzymes"].GetArray()) {
+        std::string name_v = enzyme["name"].GetString();
+        std::vector<Reaction> reaction_vect;
+        for (auto& reaction : enzyme["reactions"].GetArray()) {
+            reaction_vect.push_back(StringToReaction(reaction.GetString()));
+        }
+
+        Enzyme new_enzyme(name_v, reaction_vect);
+        enzymes_.push_back(new_enzyme);
+    }
+}
+
+std::string Pathway::GetName() const {
+    return name_;
+}
+
+unit Pathway::GetKmUnits() const {
+    return km_units_;
+}
+
+unit Pathway::GetKCatUnits() const {
+    return kcat_units_;
+}
+
+unit Pathway::GetVolumeUnits() const {
+    return volume_units_;
+}
+
+int Pathway::GetVolume() const {
+    return volume_units_;
+}
+
+std::vector<Metabolite> Pathway::GetMetabolites() const {
+    return metabolites_;
+}
+
+std::vector<Reaction> Pathway::GetReactions() const {
+    return reactions_;
+}
+
+std::vector<Enzyme> Pathway::GetEnzymes() const {
+    return enzymes_;
+}
+
+Metabolite Pathway::StringToMetabolite(std::string metabolite_string) {
+    for (Metabolite metabolite : metabolites_) {
+        if (metabolite.GetShortname() == metabolite_string) {
+            return metabolite;
+        }
+    }
+    return Metabolite();
+}
+
+Reaction Pathway::StringToReaction(std::string reaction_string) {
+    for (Reaction reaction : reactions_) {
+        if (reaction.GetName() == reaction_string) {
+            return reaction;
+        }
+    }
+    return Reaction();
+}
+
+Enzyme Pathway::StringToEnzyme(std::string enzyme_string) {
+    for (Enzyme enzyme : enzymes_) {
+        if (enzyme.GetName() == enzyme_string) {
+            return enzyme;
+        }
+    }
+    return Enzyme();
 }
 
