@@ -62,10 +62,11 @@ Pathway::Pathway(std::string json_filename) {
         std::string fullname_v = metabolite["fullname"].GetString();
         //TODO calculate actual number of particles that should be added
         int num_particles_v = metabolite["init_conc"].GetDouble() * 1000;
-        Metabolite new_metabolite(shortname_v, fullname_v, num_particles_v);
+        int x_pos_v = metabolite["x_pos"].GetInt();
+        int y_pos_v = metabolite["y_pos"].GetInt();
+        Metabolite new_metabolite(shortname_v, fullname_v, num_particles_v, x_pos_v, y_pos_v);
         metabolites_.push_back(new_metabolite);
         metabolite.GetObject();
-        int x = 5;
     }
 
     for (auto& reaction : document["Reactions"].GetArray()) {
@@ -94,8 +95,10 @@ Pathway::Pathway(std::string json_filename) {
         for (auto& reaction : enzyme["reactions"].GetArray()) {
             reaction_vect.push_back(StringToReaction(reaction.GetString()));
         }
+        int x_pos_v = enzyme["x_pos"].GetInt();
+        int y_pos_v = enzyme["y_pos"].GetInt();
 
-        Enzyme new_enzyme(name_v, reaction_vect);
+        Enzyme new_enzyme(name_v, reaction_vect, x_pos_v, y_pos_v);
         enzymes_.push_back(new_enzyme);
     }
 }

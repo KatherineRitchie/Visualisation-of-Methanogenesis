@@ -12,6 +12,14 @@ int Metabolite::GetNumParticles() const {
     return num_particles_;
 }
 
+int Metabolite::GetXPos() const {
+    return x_pos_;
+}
+
+int Metabolite::GetYPos() const {
+    return y_pos_;
+}
+
 void Metabolite::SetFullName(std::string fullname_v) {
     fullname_ = fullname_v;
 }
@@ -50,8 +58,11 @@ bool Metabolite::operator==(const Metabolite &rhs) const {
     if (num_particles_ != rhs.GetNumParticles()) {
         return false;
     }
+    //TODO double check that this is the right design choice!!!!!!
+    //we do not check for x/y positions as there may be multiple representations of the same chemical
     return true;
 }
+
 bool Metabolite::operator!=(const Metabolite &rhs) const {
     return !(*this == rhs);
 }

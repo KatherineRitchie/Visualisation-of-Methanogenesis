@@ -1,34 +1,21 @@
-#include <iostream>
-#include <vector>
-#include <map>
+#include "ofMain.h"
+#include "ofApp.h"
 
-#include "main.h"
+//========================================================================
+int main( ){
 
-int main() {
-    //load up time resolved dictionary
-    //main with global variable containing 2d dictionary, an entry for each metabolic and a vector for each time step
-    //display animation
-    std::cout << "standard cout dinosaur\n";
+    ofSetupOpenGL(480, 480, OF_WINDOW);            // <-------- setup the GL context
+
+    ofSetFrameRate(12); // An appropriate framerate that moves the snake at a good speed
+    // Due to the simple nature of our objects rendering things this slow should not cause visual discomfort or lage
     
-    Metabolite default_metabolite;
-    std::cout << "standard cout dinosaur\n";
-    bool one = default_metabolite.GetFullname() == "";
-//    bool two = default_metabolite.GetShortname() == NULL;
-//    bool three = default_metabolite.GetNumParticles() == 0;
-//    default_metabolite.rm_particle();
-//    std::cout << std::to_string(one) << std::to_string(two) << std::to_string(three) << std::endl;
-    return 0;
+    // this kicks off the running of my app
+    //ofRunApp(new snakelinkedlist::snakeGame());
+    
+    // this kicks off the running of my app
+    // can be OF_WINDOW or OF_FULLSCREEN
+    // pass in width and height too:
+    ofRunApp( new ofApp());
+
 }
 
-void publish(Metabolite& Metabolite);
-void publish(std::vector<Metabolite> metabolite);
-
-void publish(Metabolite& metabolite) {
-	channel[metabolite.GetShortname()] = metabolite;
-}
-
-void publish(std::vector<Metabolite>& metabolites) {
-	for (Metabolite metabolite : metabolites) {
-		publish(metabolite);
-	}
-}

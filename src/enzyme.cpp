@@ -8,9 +8,11 @@ Enzyme::Enzyme() {
     name_ = "";
     reactions_ = std::vector<Reaction>();
 }
-Enzyme::Enzyme(std::string name_v, std::vector<Reaction> rxn_v) {
+Enzyme::Enzyme(std::string name_v, std::vector<Reaction> rxn_v, int x_pos_v, int y_pos_v) {
     name_ = name_v;
     reactions_ = rxn_v;
+    x_pos_ = x_pos_v;
+    y_pos_ = y_pos_v;
 }
 
 std::string Enzyme::GetName() const {
@@ -19,6 +21,14 @@ std::string Enzyme::GetName() const {
 
 std::vector<Reaction> Enzyme::GetReactions() const {
     return reactions_;
+}
+
+int Enzyme::GetXPos() const {
+    return x_pos_;
+}
+
+int Enzyme::GetYPos() const {
+    return y_pos_;
 }
 
 void Enzyme::SetName(std::string name_v) {

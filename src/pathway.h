@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <map>
 #include "../include/rapidjson/document.h"
 #include "../include/rapidjson/prettywriter.h" // for stringify JSON
 
@@ -35,7 +36,10 @@ class Pathway {
     std::vector<Reaction> reactions_;
     std::vector<Enzyme> enzymes_;
 
+
 public:
+    std::map<Metabolite, int> curr_state;
+
     Pathway();
     //TODO break up this horrible constructor its truly atrocious
     explicit Pathway(std::string json_filename);

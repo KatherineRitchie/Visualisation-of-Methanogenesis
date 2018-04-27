@@ -5,3 +5,4 @@ April 22 - creation of file to string functionality
 April 23 - worked on writing pathway constructor and pathway test cases, having trouble working with rapid json library
 April 24 - Added equality operator overloading after issues with const. Wrote enzyme test cases.
 April 25 - Finished writing the json-filename-to-pathway constructor. Huzzah! It works based off of debugging software but test cases are not working for unknown reasons.
+April 27 - Integrated backend (which is not yet finished) into the open frameworks environment using the project generator.
