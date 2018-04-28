@@ -146,33 +146,24 @@ TEST_CASE("Testing pathway constructors, and \"string to enzyme/metabolite/react
         REQUIRE(methanogenesis_pathway.GetKmUnits() == mM);
         REQUIRE(methanogenesis_pathway.GetKCatUnits() == per_sec);
 
-        int num_particles_atp_ac = (int) 0.0713 * 6.023 * pow(10.0, 23) * pow(10.0, -15) * 500;
-        int num_particles_acp_adp = (int) 0.098 * 6.023 * pow(10.0, 23) * pow(10.0, -15) * 500;
+        long num_particles_atp_ac = (long) (pow(10.0, 23) * pow(10.0, -15) * (double) (0.0713 * 6.023 * 500));
+        long num_particles_acp_adp = (long) (pow(10.0, 23) * pow(10.0, -15) * (double) (0.098 * 6.023 * 500));
         Metabolite atp("atp", "ATP", num_particles_atp_ac, 120, 120);
         Metabolite ac("ac", "Ac", num_particles_atp_ac, 360, 120);
         Metabolite acp("acp", "AcP", num_particles_acp_adp, 360, 360);
         Metabolite adp("adp", "ADP", num_particles_acp_adp, 120, 360);
         std::vector<Metabolite> expected_metabolites = { atp, ac, acp, adp};
-        REQUIRE(methanogenesis_pathway.GetMetabolites().size() == 4);
+        REQUIRE(methanogenesis_pathway.GetMetabolites() == expected_metabolites);
 
-        //TODO Ask Shachi why this function isnt working when the debugger is correct
-//        REQUIRE(methanogenesis_pathway.GetMetabolites() == expected_metabolites);
-//TODO broken because of ++
-        REQUIRE(methanogenesis_pathway.StringToMetabolite("atp").GetFullname() == atp.GetFullname());
-        REQUIRE(methanogenesis_pathway.StringToMetabolite("atp").GetShortname() == atp.GetShortname());
-        REQUIRE(methanogenesis_pathway.StringToMetabolite("atp").GetNumParticles() == atp.GetNumParticles());
+        Reaction forward_rxn("atp+ac->acp+adp", std::vector<Metabolite>({atp, ac}), std::vector<Metabolite>({acp, adp}), B, 1055.0);
+        Reaction back_rxn("adp+acp->ac+atp", std::vector<Metabolite>({adp, acp}), std::vector<Metabolite>({ac, atp}), B, 1260.0);
+        const std::vector<Reaction> expected_rxns = {forward_rxn, back_rxn};
+        REQUIRE(methanogenesis_pathway.GetReactions() == expected_rxns);
 
-
-//        Reaction forward_rxn("atp+ac->acp+adp", std::vector<Metabolite>({atp, ac}), std::vector<Metabolite>({acp, adp}), B, 1055.0);
-//        Reaction back_rxn("adp+acp->ac+atp", std::vector<Metabolite>({acp, adp}), std::vector<Metabolite>({ac, atp}), B, 1260.0);
-//        const std::vector<Reaction> expected_rxns = {forward_rxn, back_rxn};
-//        REQUIRE(methanogenesis_pathway.GetReactions() == expected_rxns);
-//        REQUIRE(methanogenesis_pathway.StringToReaction("atp+ac->acp+adp") == forward_rxn);
-//
-//        Enzyme ack("Ack", std::vector<Reaction>({forward_rxn, back_rxn}));
-//        std::vector<Enzyme> expected_enzymes = {ack};
-//        REQUIRE(methanogenesis_pathway.GetEnzymes() == expected_enzymes);
-//        REQUIRE(methanogenesis_pathway.StringToEnzyme("atp+ac->acp+adp").GetName() == ack.GetName());
+        Enzyme ack("Ack", std::vector<Reaction>({forward_rxn, back_rxn}), 0, 0);
+        std::vector<Enzyme> expected_enzymes = {ack};
+        REQUIRE(methanogenesis_pathway.GetEnzymes() == expected_enzymes);
+        REQUIRE(methanogenesis_pathway.StringToEnzyme("Ack").GetName() == ack.GetName());
     }
 }
 
