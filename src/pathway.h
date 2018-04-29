@@ -38,7 +38,7 @@ class Pathway {
 
 public:
     //This hashmap allows the graphics to very easily access what colour the Metabolite should be
-    std::map<Metabolite, long> curr_state;
+    std::map<Metabolite*, long> curr_state;
 
     Pathway();
     Pathway(std::string name_v, unit km_unit_v, unit kcat_unit_v, unit volume_unit_v, int volume_v,

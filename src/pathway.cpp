@@ -50,6 +50,10 @@ enzymes_vect) {
     metabolites_ = metabolites_vect;
     reactions_ = reactions_vect;
     enzymes_ = enzymes_vect;
+    //initialise curr_state map
+    for (Metabolite *metabolite : metabolites_) {
+        curr_state[metabolite] = metabolite->GetNumParticles();
+    }
 }
 
 Pathway::Pathway(std::string json_filename) {
@@ -80,6 +84,10 @@ Pathway::Pathway(std::string json_filename) {
         Metabolite *new_metabolite = new Metabolite(shortname_v, fullname_v, num_particles_v, x_pos_v, y_pos_v);
         metabolites_.push_back(new_metabolite);
         metabolite.GetObject();
+    }
+    //initialise curr_state map
+    for (Metabolite *metabolite : metabolites_) {
+        curr_state[metabolite] = metabolite->GetNumParticles();
     }
 
     for (auto& reaction : document["Reactions"].GetArray()) {
@@ -158,20 +166,26 @@ Metabolite* Pathway::StringToMetabolite(std::string metabolite_string) {
 }
 
 void Pathway::incrementTime() {
-//    std::map<Metabolite, int> change_in_particles;
-//    for (Metabolite metabolite : metabolites_) {
-//        change_in_particles[metabolite] = 0;
-//    }
-//    for (Enzyme enzyme : enzymes_) {
-//        for (Reaction reaction : enzyme.GetReactions()) {
-//            for (Metabolite reactant : reaction.GetReactants()) {
-//                change_in_particles[reactant] -= 1;
-//            }
-//            for (Metabolite product : reaction.GetProducts()) {
-//                change_in_particles[product] += 1;
-//            }
-//        }
-//    }
+    std::map<Metabolite*, int> change_in_particles;
+    for (Metabolite *metabolite : metabolites_) {
+        change_in_particles[metabolite] = 0;
+    }
+    for (Enzyme *enzyme : enzymes_) {
+        for (Reaction *reaction : enzyme->GetReactions()) {
+            for (int kcat_idx = 0; kcat_idx < (int) reaction->GetKCat(); kcat_idx++) {
+                for (Metabolite *reactant : reaction->GetReactants()) {
+                    change_in_particles[reactant] -= 1;
+                }
+                for (Metabolite *product : reaction->GetProducts()) {
+                    change_in_particles[product] += 1;
+                }
+            }
+        }
+    }
+
+    for (Metabolite *metabolite : metabolites_) {
+        curr_state[metabolite] = curr_state[metabolite] + change_in_particles[metabolite];
+    }
 }
 
 Reaction* Pathway::StringToReaction(std::string reaction_string) {
