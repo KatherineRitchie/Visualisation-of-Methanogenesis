@@ -17,19 +17,19 @@ ReactionType StringToReactionType(std::string reaction_type_string);
 
 class Reaction {
     std::string name_;
-    std::vector<Metabolite> reactants_;
-    std::vector<Metabolite> products_;
+    std::vector<Metabolite*> reactants_;
+    std::vector<Metabolite*> products_;
     ReactionType type_;
     double kcat;
 
 public:
     Reaction();
-    explicit Reaction(std::string name_v, std::vector<Metabolite> reactants_v, std::vector<Metabolite> products_v, ReactionType reaction_type_v, double kcat_v);
+    explicit Reaction(std::string name_v, std::vector<Metabolite*> reactants_v, std::vector<Metabolite*> products_v, ReactionType reaction_type_v, double kcat_v);
 
     //Accessor
     std::string GetName() const;
-    std::vector<Metabolite> GetReactants() const;
-    std::vector<Metabolite> GetProducts() const;
+    std::vector<Metabolite*> GetReactants() const;
+    std::vector<Metabolite*> GetProducts() const;
     ReactionType GetType() const;
     double GetKCat() const;
 
@@ -37,8 +37,8 @@ public:
 
     //Modifiers
     void SetName(std::string name_v);
-    void SetReactants(std::vector<Metabolite> reactants_v);
-    void SetProducts(std::vector<Metabolite> product_v);
+    void SetReactants(std::vector<Metabolite*> reactants_v);
+    void SetProducts(std::vector<Metabolite*> product_v);
     void SetReactionType(ReactionType reaction_type_v);
     void SetKCat(double kcat_v);
 

@@ -1,12 +1,16 @@
 #pragma once
 
 #include "ofMain.h"
+#include "pathway.h"
 
 class ofApp : public ofBaseApp{
-    private:
-    void drawEnzyme();
-    void drawMetabolite();
+    Pathway pathway_;
     
+    private:
+    void drawEnzyme(Enzyme enzyme_v);
+    void drawMetabolite(Metabolite metabolite_);
+    void drawReaction(Reaction reaction_v, int enzyme_x_pos, int enzyme_y_pos);
+
     public:
         void setup();
         void update();

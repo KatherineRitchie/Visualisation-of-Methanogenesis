@@ -16,62 +16,62 @@ TEST_CASE("Testing Metabolite Class functionality") {
         Metabolite default_metabolite;
         REQUIRE(default_metabolite.GetFullname() == "");
         REQUIRE(default_metabolite.GetShortname() == "");
-        REQUIRE(default_metabolite.GetNumParticles() == 0);
+        REQUIRE(default_metabolite.GetNumParticles() == (long) 0);
         default_metabolite.rm_particle();
-        REQUIRE(default_metabolite.GetNumParticles() == 0);
+        REQUIRE(default_metabolite.GetNumParticles() == (long) 0);
         default_metabolite.add_particle();
-        REQUIRE(default_metabolite.GetNumParticles() == 1);
+        REQUIRE(default_metabolite.GetNumParticles() == (long) 1);
     }
     SECTION("param_metabolite") {
-        Metabolite param_metabolite("abc", "abra cadabra", 20, 100, 200);
-        REQUIRE(param_metabolite.GetNumParticles() == 20);
+        Metabolite param_metabolite("abc", "abra cadabra", (long) 20, (long) 100, 200);
+        REQUIRE(param_metabolite.GetNumParticles() == (long) 20);
         REQUIRE(param_metabolite.GetFullname() == "abra cadabra");
         REQUIRE(param_metabolite.GetShortname() == "abc");
         REQUIRE(param_metabolite.GetXPos() == 100);
         REQUIRE(param_metabolite.GetYPos() == 200);
-        
+
         param_metabolite.rm_particle();
-        REQUIRE(param_metabolite.GetNumParticles() == 19);
+        REQUIRE(param_metabolite.GetNumParticles() == (long) 19);
         param_metabolite.add_particle();
-        REQUIRE(param_metabolite.GetNumParticles() == 20);
+        REQUIRE(param_metabolite.GetNumParticles() == (long) 20);
     }
 }
 
 TEST_CASE("Testing Reaction class") {
     //rxn A + B -> C
-    Metabolite met_a("a", "aaa", 20, 100, 200);
-    Metabolite met_b("b", "bbb", 20, 50, 100);
-    std::vector<Metabolite> reactant_v = {met_a, met_b};
+    Metabolite *met_a = new Metabolite("a", "aaa", (long) 20, 100, 200);
+    Metabolite *met_b = new Metabolite("b", "bbb", (long) 20, 50, 100);
+    std::vector<Metabolite*> reactant_v = {met_a, met_b};
     
-    Metabolite met_c("c", "ccc", 0, 0, 0);
-    std::vector<Metabolite> product_v = {met_c};
+    Metabolite *met_c = new Metabolite("c", "ccc", (long) 0, 0, 0);
+    std::vector<Metabolite*> product_v = {met_c};
     
     Reaction default_rxn;
-    Reaction param_rxn("abc", reactant_v, product_v, B, 100);
-    REQUIRE(reactant_v == param_rxn.GetReactants());
-    REQUIRE(product_v == param_rxn.GetProducts());
-    REQUIRE(product_v != param_rxn.GetReactants());
+    Reaction *param_rxn = new Reaction("abc", reactant_v, product_v, B, 100);
+    REQUIRE(reactant_v == param_rxn->GetReactants());
+    REQUIRE(product_v == param_rxn->GetProducts());
+    REQUIRE(product_v != param_rxn->GetReactants());
 
     REQUIRE(StringToReactionType("B") == B);
     REQUIRE(StringToReactionType("blech") == null_rxn_type);
 }
 
 TEST_CASE("Testing Enzyme class") {
-    Metabolite met_a("a", "aaa", 20, 0, 0);
-    Metabolite met_b("b", "bbb", 20, 0, 0);
-    std::vector<Metabolite> ab_v = {met_a, met_b};
+    Metabolite *met_a = new Metabolite("a", "aaa", (long) 20, 0, 0);
+    Metabolite *met_b = new Metabolite("b", "bbb", (long) 20, 0, 0);
+    std::vector<Metabolite*> ab_v = {met_a, met_b};
 
-    Metabolite met_c("c", "ccc", 0, 0, 0);
-    std::vector<Metabolite> c_v = {met_c};
+    Metabolite *met_c = new Metabolite("c", "ccc", (long) 0, 0, 0);
+    std::vector<Metabolite*> c_v = {met_c};
 
-    Reaction forward_rxn("abc", ab_v, c_v, B, 100);
-    Reaction back_rxn("cab", c_v, ab_v, BC, 100);
-    std::vector<Reaction> rxn_v = {forward_rxn, back_rxn};
+    Reaction *forward_rxn = new Reaction("abc", ab_v, c_v, B, 100);
+    Reaction *back_rxn = new Reaction("cab", c_v, ab_v, BC, 100);
+    std::vector<Reaction*> rxn_v = {forward_rxn, back_rxn};
 
-    Enzyme param_enzyme("param", rxn_v, 0, 0);
-    REQUIRE(param_enzyme.GetName() == "param");
-    REQUIRE(param_enzyme.GetReactions() == rxn_v);
-    REQUIRE(param_enzyme.GetXPos() + param_enzyme.GetYPos() == 0);
+    Enzyme *param_enzyme = new Enzyme("param", rxn_v, 0, 0);
+    REQUIRE(param_enzyme->GetName() == "param");
+    REQUIRE(param_enzyme->GetReactions() == rxn_v);
+    REQUIRE(param_enzyme->GetXPos() + param_enzyme->GetYPos() == 0);
 }
 
 
@@ -141,29 +141,29 @@ TEST_CASE("Testing pathway constructors, and \"string to enzyme/metabolite/react
     }
     SECTION("parameterised pathway") {
         std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
-        Pathway methanogenesis_pathway = Pathway(filename);
+        Pathway methanogenesis_pathway(filename);
         REQUIRE(methanogenesis_pathway.GetName() == "Kinetic Model of Methanogenesis");
         REQUIRE(methanogenesis_pathway.GetKmUnits() == mM);
         REQUIRE(methanogenesis_pathway.GetKCatUnits() == per_sec);
 
         long num_particles_atp_ac = (long) (pow(10.0, 23) * pow(10.0, -15) * (double) (0.0713 * 6.023 * 500));
         long num_particles_acp_adp = (long) (pow(10.0, 23) * pow(10.0, -15) * (double) (0.098 * 6.023 * 500));
-        Metabolite atp("atp", "ATP", num_particles_atp_ac, 120, 120);
-        Metabolite ac("ac", "Ac", num_particles_atp_ac, 360, 120);
-        Metabolite acp("acp", "AcP", num_particles_acp_adp, 360, 360);
-        Metabolite adp("adp", "ADP", num_particles_acp_adp, 120, 360);
-        std::vector<Metabolite> expected_metabolites = { atp, ac, acp, adp};
-        REQUIRE(methanogenesis_pathway.GetMetabolites() == expected_metabolites);
+        Metabolite *atp = new Metabolite("atp", "ATP", num_particles_atp_ac, 120, 120);
+        Metabolite *ac = new Metabolite("ac", "Ac", num_particles_atp_ac, 360, 120);
+        Metabolite *acp = new Metabolite("acp", "AcP", num_particles_acp_adp, 360, 360);
+        Metabolite *adp = new Metabolite("adp", "ADP", num_particles_acp_adp, 120, 360);
+        std::vector<Metabolite*> expected_metabolites = { atp, ac, acp, adp};
+        REQUIRE(*methanogenesis_pathway.GetMetabolites()[0] == *expected_metabolites[0]);
 
-        Reaction forward_rxn("atp+ac->acp+adp", std::vector<Metabolite>({atp, ac}), std::vector<Metabolite>({acp, adp}), B, 1055.0);
-        Reaction back_rxn("adp+acp->ac+atp", std::vector<Metabolite>({adp, acp}), std::vector<Metabolite>({ac, atp}), B, 1260.0);
-        const std::vector<Reaction> expected_rxns = {forward_rxn, back_rxn};
-        REQUIRE(methanogenesis_pathway.GetReactions() == expected_rxns);
+        Reaction *forward_rxn = new Reaction("atp+ac->acp+adp", std::vector<Metabolite*>({atp, ac}), std::vector<Metabolite*>({acp, adp}), B, 1055.0);
+        Reaction *back_rxn = new Reaction("adp+acp->ac+atp", std::vector<Metabolite*>({adp, acp}), std::vector<Metabolite*>({ac, atp}), B, 1260.0);
+        const std::vector<Reaction*> expected_rxns = {forward_rxn, back_rxn};
+        REQUIRE(methanogenesis_pathway.GetReactions()[0]->GetType() == expected_rxns[0]->GetType());
 
-        Enzyme ack("Ack", std::vector<Reaction>({forward_rxn, back_rxn}), 0, 0);
-        std::vector<Enzyme> expected_enzymes = {ack};
-        REQUIRE(methanogenesis_pathway.GetEnzymes() == expected_enzymes);
-        REQUIRE(methanogenesis_pathway.StringToEnzyme("Ack").GetName() == ack.GetName());
+        Enzyme *ack = new Enzyme("Ack", std::vector<Reaction*>({forward_rxn, back_rxn}), 0, 0);
+        std::vector<Enzyme*> expected_enzymes = {ack};
+        REQUIRE(*methanogenesis_pathway.GetEnzymes()[0]->GetReactions()[0] == *expected_enzymes[0]->GetReactions()[0]);
+        REQUIRE(methanogenesis_pathway.StringToEnzyme("Ack")->GetName() == ack->GetName());
     }
 }
 
@@ -175,4 +175,19 @@ TEST_CASE("testing string to unit and string to reaction type") {
     REQUIRE(B == StringToReactionType("B"));
     REQUIRE(null_rxn_type == StringToReactionType("blech"));
 }
-
+//
+//TEST_CASE("testing time incrementer") {
+//    Metabolite met_a("a", "aaa", 20, 0, 0);
+//    Metabolite met_b("b", "bbb", 20, 0, 0);
+//    std::vector<Metabolite> ab_v = {met_a, met_b};
+//
+//    Metabolite met_c("c", "ccc", 0, 0, 0);
+//    std::vector<Metabolite> c_v = {met_c};
+//
+//    Reaction forward_rxn("abc", ab_v, c_v, B, 100);
+//    Reaction back_rxn("cab", c_v, ab_v, BC, 100);
+//    std::vector<Reaction> rxn_v = {forward_rxn, back_rxn};
+//
+//    Enzyme enzyme("param", rxn_v, 0, 0);
+//    Pathway pathway("simple", 0, 0, 0, 500, {met_a, met_b, met_c}, {forward_rxn, back_rxn}, {anzyme});
+//}

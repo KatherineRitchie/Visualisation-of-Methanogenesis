@@ -10,7 +10,6 @@
 #include "enzyme.h"
 #include "load.h"
 #include <iostream>
-#include <string>
 #include <cstring>
 #include <map>
 #include "../include/rapidjson/document.h"
@@ -32,15 +31,19 @@ class Pathway {
     unit kcat_units_;
     unit volume_units_;
     int volume_;
-    std::vector<Metabolite> metabolites_;
-    std::vector<Reaction> reactions_;
-    std::vector<Enzyme> enzymes_;
+    std::vector<Metabolite*> metabolites_;
+    std::vector<Reaction*> reactions_;
+    std::vector<Enzyme*> enzymes_;
 
 
 public:
-    std::map<Metabolite, int> curr_state;
+    //This hashmap allows the graphics to very easily access what colour the Metabolite should be
+    std::map<Metabolite, long> curr_state;
 
     Pathway();
+    Pathway(std::string name_v, unit km_unit_v, unit kcat_unit_v, unit volume_unit_v, int volume_v,
+            std::vector<Metabolite*> metabolites_vect, std::vector<Reaction*> reactions_vect, std::vector<Enzyme*>
+            enzymes_vect);
     //TODO break up this horrible constructor its truly atrocious
     explicit Pathway(std::string json_filename);
 
@@ -50,16 +53,19 @@ public:
     unit GetKCatUnits() const;
     unit GetVolumeUnits() const;
     int GetVolume() const;
-    std::vector<Metabolite> GetMetabolites() const;
-    std::vector<Reaction> GetReactions() const;
-    std::vector<Enzyme> GetEnzymes() const;
+    std::vector<Metabolite*> GetMetabolites() const;
+    std::vector<Reaction*> GetReactions() const;
+    std::vector<Enzyme*> GetEnzymes() const;
+
+    //Modifiers
+    void incrementTime();
 
     //The following functions accept a standard string and return a copy of a metabolite, reaction or enzyme
     // that is present in the pathway. If a matching one is not found, then a default reaction, metablite or
     // enzyme is returned.
-    Metabolite StringToMetabolite(std::string metabolite_string);   //Accepts metabolite shortName eg atp
-    Reaction StringToReaction(std::string reaction_string);         //Accepts Reaction name eg atp+ac->acp+adp
-    Enzyme StringToEnzyme(std::string enzyme_string);               //Accepts enzyme name eg Ack
+    Metabolite* StringToMetabolite(std::string metabolite_string);   //Accepts metabolite shortName eg atp
+    Reaction* StringToReaction(std::string reaction_string);         //Accepts Reaction name eg atp+ac->acp+adp
+    Enzyme* StringToEnzyme(std::string enzyme_string);               //Accepts enzyme name eg Ack
 };
 
 #endif //PATHWAY_H
