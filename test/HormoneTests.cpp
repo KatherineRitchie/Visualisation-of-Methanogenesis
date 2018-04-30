@@ -127,7 +127,7 @@ TEST_CASE("Testing load class") {
             "        }\n"
             "    ]\n"
             "}";
-    std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
+    std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/test_json.json";
     std::string actual_string = FileToString(filename);
     //TODO fix this test case
     //REQUIRE(actual_string == expected_string);
@@ -141,7 +141,7 @@ TEST_CASE("Testing pathway constructors, and \"string to enzyme/metabolite/react
         REQUIRE(default_pathway.GetMetabolites().size() == 0);
     }
     SECTION("parameterised pathway") {
-        std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
+        std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/test_json.json";
         Pathway methanogenesis_pathway(filename);
         REQUIRE(methanogenesis_pathway.GetName() == "Kinetic Model of Methanogenesis");
         REQUIRE(methanogenesis_pathway.GetKmUnits() == mM);
@@ -201,5 +201,10 @@ TEST_CASE("testing time incrementer") {
     REQUIRE(pathway.curr_state[met_a] == 19);
     REQUIRE(pathway.curr_state[met_b] == 19);
     REQUIRE(pathway.curr_state[met_c] == 1);
+}
 
+TEST_CASE("testing in progress json") {
+    std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
+    Pathway methanogenesis_pathway(filename);
+    methanogenesis_pathway.incrementTime();
 }

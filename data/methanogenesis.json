@@ -3,27 +3,245 @@
     "km_units": "mM",
     "kcat_units": "per_sec",
     "volume_units": "fL",
-    "volume": 500,
+    "volume": 20,
     "Metabolites": [
         {
             "shortname": "atp",
             "fullname": "ATP",
-            "init_conc": 0.0713
+            "init_conc": 0.0713,
+            "x_pos": 850,
+            "y_pos": 375
         },
         {
             "shortname": "ac",
             "fullname": "Ac",
-            "init_conc": 0.0713
+            "init_conc": 0.0713,
+            "x_pos": 925,
+            "y_pos": 450
         },
         {
             "shortname": "acp",
             "fullname": "AcP",
-            "init_conc": 0.098
+            "init_conc": 0.098,
+            "x_pos": 725,
+            "y_pos": 450
         },
         {
             "shortname": "adp",
             "fullname": "ADP",
-            "init_conc": 0.098
+            "init_conc": 0.098,
+            "x_pos": 775,
+            "y_pos": 375
+        },
+        {
+            "shortname": "coa",
+            "fullname": "Coenzyme A",
+            "init_conc": 0.186,
+            "x_pos": 650,
+            "y_pos": 525
+        },
+        {
+            "shortname": "acoa",
+            "fullname": "Acetyl Coenzyme A",
+            "init_conc": 0.18,
+            "x_pos": 550,
+            "y_pos": 450
+        },
+        {
+            "shortname": "pi",
+            "fullname": "Pi",
+            "init_conc": 0.18,
+            "x_pos": 650,
+            "y_pos": 375
+        },
+        {
+            "shortname": "h4spt",
+            "fullname": "H4SPT",
+            "init_conc": 7.1,
+            "x_pos": 525,
+            "y_pos": 525
+        },
+        {
+            "shortname": "fdox",
+            "fullname": "Fdox",
+            "init_conc": 7.1,
+            "x_pos": 525,
+            "y_pos": 400
+        },
+        {
+            "shortname": "h2o",
+            "fullname": "Water",
+            "init_conc": 7.1,
+            "x_pos": 425,
+            "y_pos": 500
+        },
+        {
+            "shortname": "meh4spt",
+            "fullname": "MeH4SPT",
+            "init_conc": 0.9,
+            "x_pos": 425,
+            "y_pos": 225
+        },
+        {
+            "shortname": "fdred",
+            "fullname": "Fdred",
+            "init_conc": 0.9,
+            "x_pos": 400,
+            "y_pos": 425
+        },
+        {
+            "shortname": "h+",
+            "fullname": "H+",
+            "init_conc": 50.0,
+            "x_pos": 450,
+            "y_pos": 375
+        },
+        {
+            "shortname": "co",
+            "fullname": "Carbon Monoxide",
+            "init_conc": 0.9,
+            "x_pos": 450,
+            "y_pos": 550
+        },
+        {
+            "shortname": "meoh",
+            "fullname": "50.0",
+            "init_conc": 0.9,
+            "x_pos": 600,
+            "y_pos": 75
+        },
+        {
+            "shortname": "com",
+            "fullname": "CoM",
+            "init_conc": 50.0,
+            "x_pos": 550,
+            "y_pos": 25
+        },
+        {
+            "shortname": "mecom",
+            "fullname": "MeCoM",
+            "init_conc": 0.0,
+            "x_pos": 225,
+            "y_pos": 225
+        },
+        {
+            "shortname": "f420",
+            "fullname": "F420",
+            "init_conc": 0.25,
+            "x_pos": 475,
+            "y_pos": 175
+        },
+        {
+            "shortname": "f420h2",
+            "fullname": "F420 H2",
+            "init_conc": 0.3,
+            "x_pos": 525,
+            "y_pos": 175
+        },
+        {
+            "shortname": "mleneh4spt",
+            "fullname": "MethyleneH4SPT",
+            "init_conc": 0.3,
+            "x_pos": 575,
+            "y_pos": 225
+        },
+        {
+            "shortname": "menylh4spt",
+            "fullname": "MethenylH4SPT",
+            "init_conc": 0.065,
+            "x_pos": 725,
+            "y_pos": 225
+        },
+        {
+            "shortname": "formh4spt",
+            "fullname": "FormylH4SPT",
+            "init_conc": 0.57,
+            "x_pos": 875,
+            "y_pos": 225
+        },
+        {
+            "shortname": "mfr",
+            "fullname": "Mfr",
+            "init_conc": 0.1,
+            "x_pos": 1000,
+            "y_pos": 300
+        },
+        {
+            "shortname": "formmfr",
+            "fullname": "FormylMfr",
+            "init_conc": 0.1,
+            "x_pos": 1000,
+            "y_pos": 150
+        },
+        {
+            "shortname": "co2",
+            "fullname": "Carbon Dioxide",
+            "init_conc": 0.02,
+            "x_pos": 1150,
+            "y_pos": 225
+        },
+        {
+            "shortname": "nac+",
+            "fullname": "Nac+",
+            "init_conc": 3.7,
+            "x_pos": 275,
+            "y_pos": 275
+        },
+        {
+            "shortname": "nae+",
+            "fullname": "Nae+",
+            "init_conc": 3.7,
+            "x_pos": 350,
+            "y_pos": 275
+        },
+        {
+            "shortname": "cob",
+            "fullname": "CoB",
+            "init_conc": 2.0,
+            "x_pos": 150,
+            "y_pos": 275
+        },
+        {
+            "shortname": "cobcom",
+            "fullname": "CoBCoM",
+            "init_conc": 0.092,
+            "x_pos": 75,
+            "y_pos": 275
+        },
+        {
+            "shortname": "ch4",
+            "fullname": "Methane",
+            "init_conc": 0,
+            "x_pos": 50,
+            "y_pos": 225
+        },
+        {
+            "shortname": "mphen",
+            "fullname": "Mphen",
+            "init_conc": 0.1,
+            "x_pos": 175,
+            "y_pos": 475
+        },
+        {
+            "shortname": "mphenh2",
+            "fullname": "MphenH2",
+            "init_conc": 0.092,
+            "x_pos": 75,
+            "y_pos": 475
+        },
+        {
+            "shortname": "h+e",
+            "fullname": "H+e",
+            "init_conc": 0,
+            "x_pos": 300,
+            "y_pos": 575
+        },
+        {
+            "shortname": "mass",
+            "fullname": "Cell Mass",
+            "init_conc": 20,
+            "x_pos": 1075,
+            "y_pos": 525
         }
     ],
     "Reactions": [
@@ -32,19 +250,287 @@
             "reactants": ["atp", "ac"],
             "products": ["acp", "adp"],
             "type": "B",
-            "kcat": "1055"
+            "kcat": 1055.0
         },
         {
             "name": "adp+acp->ac+atp",
             "reactants": ["adp", "acp"],
             "products": ["ac", "atp"],
-            "type": ""
+            "type": "B",
+            "kcat": 1260.0
+        },
+        {
+            "name": "coa+acp->acoa+pi",
+            "reactants": ["coa", "acp"],
+            "products": ["acoa", "pi"],
+            "type": "B",
+            "kcat": 1500.0
+        },        
+        {
+            "name": "acoa+pi->coa+acp",
+            "reactants": ["acoa", "pi"],
+            "products": ["coa", "acp"],
+            "type": "B",
+            "kcat": 65.8
+        },        
+        {
+            "name": "acoa+2fdox+h4spt+h2o->co+coa+2fdred+meh4spt+2h+",
+            "reactants": ["acoa", "fdox", "fdox", "h4spt", "h2o"],
+            "products": ["co", "coa", "fdred", "fdred", "meh4spt", "h+"],
+            "type": "BC",
+            "kcat": 358.5
+        },        
+        {
+            "name": "co+coa+2fdred+meh4spt+2h+->acoa+2fdox+h4spt+h2o",
+            "reactants": ["co", "coa", "fdred", "fdred", "meh4spt", "h+", "h+"],
+            "products": ["acoa", "fdox", "fdox", "h4spt", "h2o"],
+            "type": "BC",
+            "kcat": 1130.0
+        },        
+        {
+            "name": "CBA1:meoh+com+h+->mecom+h2o",
+            "reactants": ["meoh", "com", "h+"],
+            "products": ["mecom", "h2o"],
+            "type": "M",
+            "kcat": 17.0
+        },        
+        {
+            "name": "CBA2:meoh+com+h+->mecom+h2o",
+            "reactants": ["meoh", "com", "h+"],
+            "products": ["mecom", "h2o"],
+            "type": "M",
+            "kcat": 15.0
+        },        
+        {
+            "name": "CBA3:meoh+com+h+->mecom+h2o",
+            "reactants": ["meoh", "com", "h+"],
+            "products": ["mecom", "h2o"],
+            "type": "M",
+            "kcat": 5.0
+        },      
+        {
+            "name": "meh4spt+f420+h+->mleneh4spt+f420h2",
+            "reactants": ["meh4spt", "f420", "h+"],
+            "products": ["mleneh4spt", "f420h2"],
+            "type": "B",
+            "kcat": 119.7
+        },        
+        {
+            "name": "mleneh4spt+f420h2->meh4spt+f420+h+",
+            "reactants": ["mleneh4spt", "f420h2"],
+            "products": ["meh4spt", "f420", "h+"],
+            "type": "B",
+            "kcat": 815.0
+        },        
+        {
+            "name": "mleneh4spt+f420+2h+->menylh4spt+f420h2",
+            "reactants": ["mleneh4spt", "f420", "h+", "h+"],
+            "products": ["menylh4spt", "f420h2"],
+            "type": "B",
+            "kcat": 2650.0
+        },        
+        {
+            "name": "menylh4spt+f420h2->mleneh4spt+f420+2h+",
+            "reactants": ["menylh4spt", "f420h2"],
+            "products": ["mleneh4spt", "f420", "h+", "h+"],
+            "type": "B",
+            "kcat": 408.0
+        },        
+        {
+            "name": "menylh4spt+h2o->formh4spt+h+",
+            "reactants": ["menylh4spt", "h2o"],
+            "products": ["formh4spt", "h+"],
+            "type": "M",
+            "kcat": 701.0
+        },        
+        {
+            "name": "formh4spt+h+->menylh4spt+h2o",
+            "reactants": ["formh4spt", "h+"],
+            "products": ["menylh4spt", "h2o"],
+            "type": "M",
+            "kcat": 100.0
+        },        
+        {
+            "name": "formh4spt+mfr->h4spt+h++formmfr",
+            "reactants": ["formh4spt", "mfr"],
+            "products": ["h4spt", "h+", "formmfr"],
+            "type": "B",
+            "kcat": 1787.0
+        },        
+        {
+            "name": "h4spt+h++formmfr->formh4spt+mfr",
+            "reactants": ["h4spt", "h+", "formmfr"],
+            "products": ["formh4spt", "mfr"],
+            "type": "B",
+            "kcat": 262.0
+        },        
+        {
+            "name": "formmfr+2fdox+h2o->co2+2fdred+h++mfr",
+            "reactants": ["formmfr", "fdox", "fdox", "h2o"],
+            "products": ["co2", "fdred", "fdred", "h+", "mfr"],
+            "type": "BC",
+            "kcat": 1225.0
+        },        
+        {
+            "name": "co2+2fdred+h++mfr->formmfr+2fdox+h2o",
+            "reactants": ["co2", "fdred", "fdred", "h+", "mfr"],
+            "products": ["formmfr", "fdox", "fdox", "h2o"],
+            "type": "BC",
+            "kcat": 175.0
+        },        
+        {
+            "name": "h++meh4spt+2nac++com->h4spt+2nae++mecom",
+            "reactants": ["h+", "meh4spt", "nac+", "nac+", "com"],
+            "products": ["h4spt", "nae+", "nae+", "mecom"],
+            "type": "B",
+            "kcat": 50.0
+        },        
+        {
+            "name": "h4spt+2nae++mecom->h++meh4spt+2nac++com",
+            "reactants": ["h4spt", "nae+", "nae+", "mecom"],
+            "products": ["h+", "meh4spt", "nac+", "nac+", "com"],
+            "type": "B",
+            "kcat": 50.0
+        },        
+        {
+            "name": "mecom+cob->cobcom+ch4",
+            "reactants": ["mecom", "cob"],
+            "products": ["cobcom", "ch4"],
+            "type": "B",
+            "kcat": 5.0
+        },        
+        {
+            "name": "cobcom+mphenh2+2h+->cob+com+mphen+2h+e",
+            "reactants": ["cobcom", "mphenh2", "h+", "h+"],
+            "products": ["cob", "com", "mphen", "h+", "h+"],
+            "type": "B",
+            "kcat": 74.0
+        },        
+        {
+            "name": "2fdred+3nac++mphen+2h+->2fdox+3nae++mphenh2",
+            "reactants": ["fdred", "fdred", "nac+", "nac+", "nac+", "h+", "h+"],
+            "products": ["fdox", "nae+", "nae+", "nae+", "mphenh2"],
+            "type": "BC",
+            "kcat": 80.0
+        },        
+        {
+            "name": "f420h2+mphen+h+->f420+mphenh2+2h+e",
+            "reactants": ["f420h2", "mphen", "h+"],
+            "products": ["f420", "mphenh2", "h+e", "h+e"],
+            "type": "B",
+            "kcat": 80.0
+        },        
+        {
+            "name": "adp+pi+4h+e->atp+h2o+3h+",
+            "reactants": ["adp", "pi", "h+e", "h+e","h+e", "h+e"],
+            "products": ["atp", "h2o", "h+", "h+", "h+"],
+            "type": "BC",
+            "kcat": 16.0
+        },        
+        {
+            "name": "atp->adp+pi+mass",
+            "reactants": ["atp"],
+            "products": ["adp", "pi", "mass"],
+            "type": "F",
+            "kcat": 0.00000347
         }
     ],
     "Enzymes": [
         {
             "name": "Ack",
-            "reactions": ["atp+ac->acp+adp", "adp+acp->ac+atp"]
+            "reactions": ["atp+ac->acp+adp", "adp+acp->ac+atp"],
+            "x_pos": 225,
+            "y_pos": 400
+        },
+        {
+            "name": "Pta",
+            "reactions": ["coa+acp->acoa+pi", "acoa+pi->coa+acp"],
+            "x_pos": 600,
+            "y_pos": 450
+        },
+        {
+            "name": "Cdh",
+            "reactions": ["acoa+2fdox+h4spt+h2o->co+coa+2fdred+meh4spt+2h+", "co+coa+2fdred+meh4spt+2h+->acoa+2fdox+h4spt+h2o"],
+            "x_pos": 490,
+            "y_pos": 450
+        },
+        {
+            "name": "Mta",
+            "reactions": ["CBA1:meoh+com+h+->mecom+h2o", "CBA2:meoh+com+h+->mecom+h2o", "CBA3:meoh+com+h+->mecom+h2o"],
+            "x_pos": 550,
+            "y_pos": 75
+        },
+        {
+            "name": "Mer",
+            "reactions": ["meh4spt+f420+h+->mleneh4spt+f420h2", "mleneh4spt+f420h2->meh4spt+f420+h+"],
+            "x_pos": 100,
+            "y_pos": 225
+        },
+        {
+            "name": "Mtd",
+            "reactions": ["mleneh4spt+f420+2h+->menylh4spt+f420h2", "menylh4spt+f420h2->mleneh4spt+f420+2h+"],
+            "x_pos": 650,
+            "y_pos": 225
+        },
+        {
+            "name": "Mch",
+            "reactions": ["menylh4spt+h2o->formh4spt+h+", "formh4spt+h+->menylh4spt+h2o"],
+            "x_pos": 800,
+            "y_pos": 225
+        },
+        {
+            "name": "Ftr",
+            "reactions": ["formh4spt+mfr->h4spt+h++formmfr", "h4spt+h++formmfr->formh4spt+mfr"],
+            "x_pos": 925,
+            "y_pos": 225
+        },
+        {
+            "name": "Fmd",
+            "reactions": ["formmfr+2fdox+h2o->co2+2fdred+h++mfr", "co2+2fdred+h++mfr->formmfr+2fdox+h2o"],
+            "x_pos": 1050,
+            "y_pos": 225
+        },
+        {
+            "name": "Mtr",
+            "reactions": ["h++meh4spt+2nac++com->h4spt+2nae++mecom", "h4spt+2nae++mecom->h++meh4spt+2nac++com"],
+            "x_pos": 300,
+            "y_pos": 225
+        },
+        {
+            "name": "Mcr",
+            "reactions": ["mecom+cob->cobcom+ch4"],
+            "x_pos": 500,
+            "y_pos": 225
+        },
+        {
+            "name": "Hdr",
+            "reactions": ["cobcom+mphenh2+2h+->cob+com+mphen+2h+e"],
+            "x_pos": 125,
+            "y_pos": 325
+        },
+        {
+            "name": "Rnf",
+            "reactions": ["2fdred+3nac++mphen+2h+->2fdox+3nae++mphenh2"],
+            "x_pos": 225,
+            "y_pos": 550
+        },
+        {
+            "name": "Fpo",
+            "reactions": ["f420h2+mphen+h+->f420+mphenh2+2h+e"],
+            "x_pos": 150,
+            "y_pos": 550
+        },
+        {
+            "name": "synth",
+            "reactions": ["adp+pi+4h+e->atp+h2o+3h+"],
+            "x_pos": 1150,
+            "y_pos": 450
+        },
+        {
+            "name": "Mass",
+            "reactions": ["atp->adp+pi+mass"],
+            "x_pos": 1075,
+            "y_pos": 450
         }
     ]
 }

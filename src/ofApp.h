@@ -2,14 +2,17 @@
 
 #include "ofMain.h"
 #include "pathway.h"
+#include <iomanip>
 
 class ofApp : public ofBaseApp{
     Pathway pathway_;
+    int seconds_passed_;
     
     private:
-    void drawEnzyme(Enzyme enzyme_v);
-    void drawMetabolite(Metabolite metabolite_);
-    void drawReaction(Reaction reaction_v, int enzyme_x_pos, int enzyme_y_pos);
+    void drawEnzyme(const Enzyme& enzyme_v);
+    void drawMetabolite(Metabolite* metabolite_);
+    void drawReaction(const Reaction& reaction_v, int enzyme_x_pos, int enzyme_y_pos);
+    void drawToolbar();
 
     public:
         void setup();

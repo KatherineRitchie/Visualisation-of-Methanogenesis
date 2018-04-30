@@ -133,5 +133,8 @@ bool Metabolite::operator!=(const Metabolite &rhs) const {
 }
 
 long ConcToNumParticles(double conc, double numfL) {
-    return (long) (pow(10.0, 23) * pow(10.0, -15) * (double) (conc * 6.023 * numfL));
+    //this is what an accurate simulation would ordinarily return, but we will not use this number to make our
+    // simulation easier to handle
+    //return (long) (pow(10.0, 23) * pow(10.0, -15) * (double) (conc * 6.023 * numfL));
+    return (long) (pow(10.0, 4) * (double)(conc * 6.023 * numfL));
 }
