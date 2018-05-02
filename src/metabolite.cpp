@@ -1,11 +1,28 @@
 #include "metabolite.h"
 #include <math.h>
 
+Metabolite::Metabolite() {
+    shortname_ = "";
+    fullname_ = "";
+    init_num_particles_ = 0;
+    x_pos_ = 0;
+    y_pos_ = 0;
+}
+
+Metabolite::Metabolite(std::string shortname_v, std::string fullname_v, long num_particles_v, int x_pos_v, int y_pos_v) {
+    shortname_ = shortname_v;
+    fullname_ = fullname_v;
+    init_num_particles_ = num_particles_v;
+    x_pos_ = x_pos_v;
+    y_pos_ = y_pos_v;
+}
+
+
 ////copy constructor
 //Metabolite::Metabolite(const Metabolite& source) {
 //    fullname_ = source.GetFullname();
 //    shortname_ = source.GetShortname();
-//    num_particles_ = source.GetNumParticles();
+//    init_num_particles_ = source.GetInitNumParticles();
 //    x_pos_ = source.GetXPos();
 //    y_pos_ = source.GetYPos();
 //}
@@ -18,7 +35,7 @@
 //
 //    fullname_ = source.GetFullname();
 //    shortname_ = source.GetShortname();
-//    num_particles_ = source.GetNumParticles();
+//    init_num_particles_ = source.GetInitNumParticles();
 //    x_pos_ = source.GetXPos();
 //    y_pos_ = source.GetYPos();
 //
@@ -28,8 +45,8 @@
 ////    if (source.GetShortname()) {
 ////        source.SetShortName("");
 ////    }
-//    if (source.GetNumParticles()) {
-//        source.SetNumParticles(0);
+//    if (source.GetInitNumParticles()) {
+//        source.SetInitNumParticles(0);
 //    }
 //    if (source.GetXPos()) {
 //        source.SetXPos(0);
@@ -48,8 +65,8 @@ Metabolite::~Metabolite() {
 ////    if (shortname_) {
 ////        delete &shortname_;
 ////    }
-//    if (num_particles_) {
-//        delete num_particles_;
+//    if (init_num_particles_) {
+//        delete init_num_particles_;
 //    }
 //    if (x_pos_) {
 //        delete x_pos_;
@@ -67,8 +84,8 @@ std::string Metabolite::GetShortname() const {
     return shortname_;
 }
 
-long Metabolite::GetNumParticles() const {
-    return num_particles_;
+long Metabolite::GetInitNumParticles() const {
+    return init_num_particles_;
 }
 
 int Metabolite::GetXPos() const {
@@ -87,12 +104,12 @@ void Metabolite::SetShortName(std::string shortname_v) {
     shortname_ = shortname_v;
 }
 
-void Metabolite::SetNumParticles(double init_conc_v, double volume_v, std::string units) {
-    num_particles_ = ConcToNumParticles(init_conc_v, volume_v);
+void Metabolite::SetInitNumParticles(double init_conc_v, double volume_v, std::string units) {
+    init_num_particles_ = ConcToNumParticles(init_conc_v, volume_v);
 }
 
-void Metabolite::SetNumParticles(long num_particles_v) {
-    num_particles_ = num_particles_v;
+void Metabolite::SetInitNumParticles(long num_particles_v) {
+    init_num_particles_ = num_particles_v;
 }
 
 void Metabolite::SetXPos(int x_pos_v) {
@@ -102,17 +119,6 @@ void Metabolite::SetYPos(int y_pos_v) {
     y_pos_ = y_pos_v;
 }
 
-void Metabolite::rm_particle() {
-    if (num_particles_ == 0) {
-        return;
-    }
-    num_particles_ = num_particles_ - (long) 1;
-}
-
-void Metabolite::add_particle() {
-    num_particles_ = num_particles_ + (long) 1;
-}
-
 bool Metabolite::operator==(const Metabolite &rhs) const {
     if (shortname_ != rhs.GetShortname()) {
         return false;
@@ -120,7 +126,7 @@ bool Metabolite::operator==(const Metabolite &rhs) const {
     if (fullname_ != rhs.GetFullname()) {
         return false;
     }
-    if (num_particles_ != rhs.GetNumParticles()) {
+    if (init_num_particles_ != rhs.GetInitNumParticles()) {
         return false;
     }
     //TODO double check that this is the right design choice!!!!!!

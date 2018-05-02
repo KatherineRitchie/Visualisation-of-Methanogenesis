@@ -212,8 +212,8 @@
             "shortname": "ch4",
             "fullname": "Methane",
             "init_conc": 0,
-            "x_pos": 200,
-            "y_pos": 100
+            "x_pos": 50,
+            "y_pos": 225
         },
         {
             "shortname": "mphen",

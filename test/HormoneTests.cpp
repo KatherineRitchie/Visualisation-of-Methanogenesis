@@ -16,24 +16,15 @@ TEST_CASE("Testing Metabolite Class functionality") {
         Metabolite default_metabolite;
         REQUIRE(default_metabolite.GetFullname() == "");
         REQUIRE(default_metabolite.GetShortname() == "");
-        REQUIRE(default_metabolite.GetNumParticles() == (long) 0);
-        default_metabolite.rm_particle();
-        REQUIRE(default_metabolite.GetNumParticles() == (long) 0);
-        default_metabolite.add_particle();
-        REQUIRE(default_metabolite.GetNumParticles() == (long) 1);
+        REQUIRE(default_metabolite.GetInitNumParticles() == (long) 0);
     }
     SECTION("param_metabolite") {
         Metabolite param_metabolite("abc", "abra cadabra", (long) 20, (long) 100, 200);
-        REQUIRE(param_metabolite.GetNumParticles() == (long) 20);
+        REQUIRE(param_metabolite.GetInitNumParticles() == (long) 20);
         REQUIRE(param_metabolite.GetFullname() == "abra cadabra");
         REQUIRE(param_metabolite.GetShortname() == "abc");
         REQUIRE(param_metabolite.GetXPos() == 100);
         REQUIRE(param_metabolite.GetYPos() == 200);
-
-        param_metabolite.rm_particle();
-        REQUIRE(param_metabolite.GetNumParticles() == (long) 19);
-        param_metabolite.add_particle();
-        REQUIRE(param_metabolite.GetNumParticles() == (long) 20);
     }
 }
 
@@ -207,4 +198,38 @@ TEST_CASE("testing in progress json") {
     std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
     Pathway methanogenesis_pathway(filename);
     methanogenesis_pathway.incrementTime();
+}
+
+TEST_CASE("testing canReact() method") {
+    Metabolite *met_a = new Metabolite("a", "aaa", 20, 0, 0);
+    Metabolite *met_b = new Metabolite("b", "bbb", 20, 0, 0);
+    std::vector<Metabolite*> ab_v = {met_a, met_b};
+
+    Metabolite *met_c = new Metabolite("c", "ccc", 0, 0, 0);
+    std::vector<Metabolite*> c_v = {met_c};
+
+    Reaction *possible_rxn = new Reaction("abc", ab_v, c_v, B, 2);
+    Reaction *impossible_rxn = new Reaction("dec", c_v, ab_v, B, 2);
+    std::vector<Reaction*> rxn_vect = {possible_rxn, impossible_rxn};
+
+    Enzyme *enzyme = new Enzyme("enzyme", rxn_vect, 0, 0);
+    Pathway pathway("simple", mM, per_sec, fL, 500, std::vector<Metabolite*>({met_a, met_b, met_c}), rxn_vect, std::vector<Enzyme*>({enzyme}));
+
+    REQUIRE(pathway.CanReact(possible_rxn) == true);
+    REQUIRE(pathway.CanReact(impossible_rxn) == false);
+
+    pathway.incrementTime();
+    pathway.incrementTime();
+
+    REQUIRE(pathway.CanReact(possible_rxn) == true);
+    REQUIRE(pathway.CanReact(impossible_rxn) == true);
+}
+
+TEST_CASE("finding out the overloading") {
+    std::string filename = "/Users/Kate/Documents/GitHub/Useful_Libraries/of_v0.9.8_osx_release/apps/myApps/final-project-KatherineRitchie/data/methanogenesis.json";
+    Pathway pathway(filename);
+    double curr_num_particles = 140000;
+    double init_num_particles = pathway.StringToMetabolite("menylh4spt")->GetInitNumParticles();
+    double colour_fraction = curr_num_particles / (init_num_particles * 2 + 1);
+    std::cout << std::to_string(colour_fraction);
 }

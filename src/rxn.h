@@ -32,8 +32,9 @@ public:
     std::vector<Metabolite*> GetProducts() const;
     ReactionType GetType() const;
     double GetKCat() const;
+//    bool CanReact() const;
 
-    bool react();
+//    bool react();
 
     //Modifiers
     void SetName(std::string name_v);

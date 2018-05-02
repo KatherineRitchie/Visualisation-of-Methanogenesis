@@ -52,7 +52,7 @@ enzymes_vect) {
     enzymes_ = enzymes_vect;
     //initialise curr_state map
     for (Metabolite *metabolite : metabolites_) {
-        curr_state[metabolite] = metabolite->GetNumParticles();
+        curr_state[metabolite] = metabolite->GetInitNumParticles();
     }
 }
 
@@ -87,7 +87,7 @@ Pathway::Pathway(std::string json_filename) {
     }
     //initialise curr_state map
     for (Metabolite *metabolite : metabolites_) {
-        curr_state[metabolite] = metabolite->GetNumParticles();
+        curr_state[metabolite] = metabolite->GetInitNumParticles();
     }
 
     for (auto& reaction : document["Reactions"].GetArray()) {
@@ -156,6 +156,29 @@ std::vector<Enzyme*> Pathway::GetEnzymes() const {
     return enzymes_;
 }
 
+bool Pathway::CanReact(Reaction* reaction) {
+    for (Metabolite *reactant : reaction->GetReactants()) {
+        if (curr_state[reactant] <= reaction->GetKCat()) {
+            return false;
+        }
+    }
+    return true;
+}
+
+double Pathway::GetEnzymeEfficacy(const Enzyme& enzyme) const {
+    double enzyme_efficacy = 0.0;
+    for (Reaction *reaction : enzyme.GetReactions()) {
+        enzyme_efficacy += reaction->GetKCat();
+    }
+    enzyme_efficacy = enzyme_efficacy / enzyme.GetReactions().size();
+    // Division by 1000 is arbitrary, it allows the user to see the kcat values of enzymes between 0 and 100 reactions
+    // per sec. The design tradeoff is that all enzymes with high kcat values are similarly clumped together as just
+    // 'fast'.
+    enzyme_efficacy = enzyme_efficacy / 1000;
+    //TODO finish implementing colours for enzyme and metabolite []
+    return enzyme_efficacy;
+}
+
 Metabolite* Pathway::StringToMetabolite(std::string metabolite_string) {
     for (Metabolite* metabolite : metabolites_) {
         if (metabolite->GetShortname() == metabolite_string) {
@@ -174,17 +197,23 @@ void Pathway::incrementTime() {
         for (Reaction *reaction : enzyme->GetReactions()) {
             for (int kcat_idx = 0; kcat_idx < (int) reaction->GetKCat(); kcat_idx++) {
                 for (Metabolite *reactant : reaction->GetReactants()) {
-                    change_in_particles[reactant] -= 1;
+                    if (CanReact(reaction)) {
+                        change_in_particles[reactant] -= 1;
+                    }
                 }
                 for (Metabolite *product : reaction->GetProducts()) {
-                    change_in_particles[product] += 1;
+                    if (CanReact(reaction)) {
+                        change_in_particles[product] += 1;
+                    }
                 }
             }
         }
     }
 
     for (Metabolite *metabolite : metabolites_) {
-        curr_state[metabolite] = curr_state[metabolite] + change_in_particles[metabolite];
+        long new_num_particles = (curr_state[metabolite] + change_in_particles[metabolite]);
+        new_num_particles = (new_num_particles < 0 ? curr_state[metabolite] : new_num_particles);
+        curr_state[metabolite] = new_num_particles;
     }
 }
 

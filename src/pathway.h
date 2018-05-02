@@ -56,6 +56,8 @@ public:
     std::vector<Metabolite*> GetMetabolites() const;
     std::vector<Reaction*> GetReactions() const;
     std::vector<Enzyme*> GetEnzymes() const;
+    bool CanReact(Reaction* reaction);
+    double GetEnzymeEfficacy(const Enzyme& enzyme) const;
 
     //Modifiers
     void incrementTime();

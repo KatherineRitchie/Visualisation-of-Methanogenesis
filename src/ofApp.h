@@ -2,11 +2,13 @@
 
 #include "ofMain.h"
 #include "pathway.h"
+#include "ofxGui.h"
 #include <iomanip>
 
 class ofApp : public ofBaseApp{
-    Pathway pathway_;
-    int seconds_passed_;
+    Pathway pathway;
+    int secondsPassed;
+    bool bPause = true;
     
     private:
     void drawEnzyme(const Enzyme& enzyme_v);

@@ -50,6 +50,16 @@ double Reaction::GetKCat() const {
     return kcat;
 }
 
+////TODO test this method
+//bool Reaction::CanReact() const {
+//    for (Metabolite *reactant : reactants_) {
+//        if (reactant->GetCurrNumParticles() <= 0) {
+//            return false;
+//        }
+//    }
+//    return true;
+//}
+
 void Reaction::SetName(std::string name_v) {
     name_ = name_v;
 }
@@ -104,19 +114,19 @@ bool Reaction::operator!=(const Reaction &rhs) const {
     return !(*this == rhs);
 }
 
-bool Reaction::react() {
-
-    //TODO figure out how you want a reaction to occur
-    for (Metabolite* metabolite : reactants_) {
-        metabolite->rm_particle();
-    }
-    for (Metabolite* metabolite : products_) {
-        metabolite->add_particle();
-    }
-    for (Metabolite* metabolite : reactants_) {
-        if (metabolite->GetNumParticles() <= 0) {
-            return false;
-        }
-    }
-    return true;
-}
+//bool Reaction::react() {
+//
+//    //TODO figure out how you want a reaction to occur
+//    for (Metabolite* metabolite : reactants_) {
+//        metabolite->rm_particle();
+//    }
+//    for (Metabolite* metabolite : products_) {
+//        metabolite->add_particle();
+//    }
+//    for (Metabolite* metabolite : reactants_) {
+//        if (metabolite->GetInitNumParticles() <= 0) {
+//            return false;
+//        }
+//    }
+//    return true;
+//}
