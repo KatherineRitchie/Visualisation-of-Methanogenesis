@@ -60,18 +60,18 @@ Pathway::Pathway(std::string json_filename) {
     std::string json_file = FileToString(json_filename);
     rapidjson::Document document;
     const char *json_char_arr = json_file.c_str();
-    std::cout << json_char_arr << std::endl;
     if (document.Parse(json_char_arr).HasParseError()) {
         std::cout << "something is wrong with the json you passed to the pathway constructor!!!" << std::endl;
         return;
     }
-    name_ = document["name"].GetString();
-    //TODO make it such that units are assigned conditionally
-    km_units_ = mM;
-    kcat_units_ = per_sec;
-    volume_units_ = fL;
 
-    //The following stanza parses the DOM tree and assigns the Metabolites to the Pathway
+    // The following four lines parses the DOM tree and fills out the names and units of the Pathway
+    name_ = document["name"].GetString();
+    km_units_ = StringToUnit(document["km_units"].GetString());
+    kcat_units_ = StringToUnit(document["kcat_units"].GetString());
+    volume_units_ = StringToUnit(document["volume_units"].GetString());
+
+    // The following stanza parses the DOM tree and assigns the Metabolites to the Pathway
     for (auto& metabolite : document["Metabolites"].GetArray()) {
         std::string shortname_v = metabolite["shortname"].GetString();
         std::string fullname_v = metabolite["fullname"].GetString();
@@ -85,11 +85,13 @@ Pathway::Pathway(std::string json_filename) {
         metabolites_.push_back(new_metabolite);
         metabolite.GetObject();
     }
-    //initialise curr_state map
+
+    //initialise curr_state map with Metabolites
     for (Metabolite *metabolite : metabolites_) {
         curr_state[metabolite] = metabolite->GetInitNumParticles();
     }
 
+    // The following stanza parses the DOM tree and assigns the Reactions to the Pathway
     for (auto& reaction : document["Reactions"].GetArray()) {
         std::string name_v = reaction["name"].GetString();
 
@@ -110,6 +112,7 @@ Pathway::Pathway(std::string json_filename) {
         reactions_.push_back(new_reaction);
     }
 
+    // The following stanza parses the DOM tree and assigns the Enzymes to the Pathway
     for (auto& enzyme : document["Enzymes"].GetArray()) {
         std::string name_v = enzyme["name"].GetString();
         std::vector<Reaction*> reaction_vect;
@@ -175,7 +178,6 @@ double Pathway::GetEnzymeEfficacy(const Enzyme& enzyme) const {
     // per sec. The design tradeoff is that all enzymes with high kcat values are similarly clumped together as just
     // 'fast'.
     enzyme_efficacy = enzyme_efficacy / 1000;
-    //TODO finish implementing colours for enzyme and metabolite []
     return enzyme_efficacy;
 }
 
@@ -193,16 +195,21 @@ void Pathway::incrementTime() {
     for (Metabolite *metabolite : metabolites_) {
         change_in_particles[metabolite] = 0;
     }
+
     for (Enzyme *enzyme : enzymes_) {
         for (Reaction *reaction : enzyme->GetReactions()) {
+            // kcat is a measure of reactions per second. If we are incrementing the time by one second, we must repeat
+            // a reaction that many times
             for (int kcat_idx = 0; kcat_idx < (int) reaction->GetKCat(); kcat_idx++) {
                 for (Metabolite *reactant : reaction->GetReactants()) {
                     if (CanReact(reaction)) {
+                        // react one particle of every reactant
                         change_in_particles[reactant] -= 1;
                     }
                 }
                 for (Metabolite *product : reaction->GetProducts()) {
                     if (CanReact(reaction)) {
+                        // create one particle of every product
                         change_in_particles[product] += 1;
                     }
                 }
@@ -210,6 +217,7 @@ void Pathway::incrementTime() {
         }
     }
 
+    // apply changes to curr_state map ***all at the same time***
     for (Metabolite *metabolite : metabolites_) {
         long new_num_particles = (curr_state[metabolite] + change_in_particles[metabolite]);
         new_num_particles = (new_num_particles < 0 ? curr_state[metabolite] : new_num_particles);

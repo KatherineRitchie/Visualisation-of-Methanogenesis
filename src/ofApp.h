@@ -2,10 +2,11 @@
 
 #include "ofMain.h"
 #include "pathway.h"
-#include "ofxGui.h"
+//#include "ofxGui.h"
 #include <iomanip>
+#include "simulationConstants.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
     Pathway pathway;
     int secondsPassed;
     bool bPause = true;

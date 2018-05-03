@@ -1,4 +1,4 @@
-#include "rxn.h"
+#include "reaction.h"
 
 ReactionType StringToReactionType(std::string reaction_type_string) {
     if (reaction_type_string == "B") {
@@ -27,7 +27,7 @@ Reaction::Reaction(std::string name_v, std::vector<Metabolite*> reactants_v, std
     reactants_ = reactants_v;
     products_ = products_v;
     type_ = reaction_type_v;
-    kcat = kcat_v;
+    kcat_ = kcat_v;
 }
 
 std::string Reaction::GetName() const {
@@ -47,18 +47,8 @@ ReactionType Reaction::GetType() const {
 }
 
 double Reaction::GetKCat() const {
-    return kcat;
+    return kcat_;
 }
-
-////TODO test this method
-//bool Reaction::CanReact() const {
-//    for (Metabolite *reactant : reactants_) {
-//        if (reactant->GetCurrNumParticles() <= 0) {
-//            return false;
-//        }
-//    }
-//    return true;
-//}
 
 void Reaction::SetName(std::string name_v) {
     name_ = name_v;
@@ -77,10 +67,9 @@ void Reaction::SetReactionType(ReactionType reaction_type_v) {
 }
 
 void Reaction::SetKCat(double kcat_v) {
-    kcat = kcat_v;
+    kcat_ = kcat_v;
 }
 
-//TODO figure out why you cant implement equality operator overloads
 bool Reaction::operator==(const Reaction &rhs) const {
     if (name_ != rhs.GetName()) {
         return false;
@@ -88,7 +77,7 @@ bool Reaction::operator==(const Reaction &rhs) const {
     if (type_ != rhs.GetType()) {
         return false;
     }
-    if (kcat != rhs.GetKCat()) {
+    if (kcat_ != rhs.GetKCat()) {
         return false;
     }
     if (reactants_.size() != rhs.GetReactants().size()) {
@@ -113,20 +102,3 @@ bool Reaction::operator==(const Reaction &rhs) const {
 bool Reaction::operator!=(const Reaction &rhs) const {
     return !(*this == rhs);
 }
-
-//bool Reaction::react() {
-//
-//    //TODO figure out how you want a reaction to occur
-//    for (Metabolite* metabolite : reactants_) {
-//        metabolite->rm_particle();
-//    }
-//    for (Metabolite* metabolite : products_) {
-//        metabolite->add_particle();
-//    }
-//    for (Metabolite* metabolite : reactants_) {
-//        if (metabolite->GetInitNumParticles() <= 0) {
-//            return false;
-//        }
-//    }
-//    return true;
-//}

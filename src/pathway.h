@@ -6,7 +6,7 @@
 #define PATHWAY_H
 
 #include "metabolite.h"
-#include "rxn.h"
+#include "reaction.h"
 #include "enzyme.h"
 #include "load.h"
 #include <iostream>
@@ -40,14 +40,16 @@ public:
     //This hashmap allows the graphics to very easily access what colour the Metabolite should be
     std::map<Metabolite*, long> curr_state;
 
+    // Constructors
     Pathway();
     Pathway(std::string name_v, unit km_unit_v, unit kcat_unit_v, unit volume_unit_v, int volume_v,
             std::vector<Metabolite*> metabolites_vect, std::vector<Reaction*> reactions_vect, std::vector<Enzyme*>
             enzymes_vect);
-    //TODO break up this horrible constructor its truly atrocious
+            // This constructor accepts a single string of a json file name and creates an entire pathway using that json
+            // an example of the appropriate formatting can be found in data
     explicit Pathway(std::string json_filename);
 
-    //Accessors
+    // Accessors
     std::string GetName() const;
     unit GetKmUnits() const;
     unit GetKCatUnits() const;
@@ -56,13 +58,13 @@ public:
     std::vector<Metabolite*> GetMetabolites() const;
     std::vector<Reaction*> GetReactions() const;
     std::vector<Enzyme*> GetEnzymes() const;
-    bool CanReact(Reaction* reaction);
-    double GetEnzymeEfficacy(const Enzyme& enzyme) const;
+    bool CanReact(Reaction* reaction);                      // only allows for reaction when reactants are present
+    double GetEnzymeEfficacy(const Enzyme& enzyme) const;   // calculates speed of enzyme based on reaction's kcat values
 
-    //Modifiers
-    void incrementTime();
+    // Modifiers
+    void incrementTime();                                   // increments time by one second, causing reactions to occur
 
-    //The following functions accept a standard string and return a copy of a metabolite, reaction or enzyme
+    // The following functions accept a standard string and return a copy of a metabolite, reaction or enzyme
     // that is present in the pathway. If a matching one is not found, then a default reaction, metablite or
     // enzyme is returned.
     Metabolite* StringToMetabolite(std::string metabolite_string);   //Accepts metabolite shortName eg atp

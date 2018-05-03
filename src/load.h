@@ -10,8 +10,7 @@
 
 #include <string>
 
-void runJson();
-
+// Accepts a file path string and returns a string of file contents
 std::string FileToString(std::string filename);
 
 #endif //LOAD_H
